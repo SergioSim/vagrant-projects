@@ -37,8 +37,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # VM name
   VM_NAME = default_s('VM_NAME', 'oracle21c-xe-vagrant')
 
-  # Memory for the VM (in MB, 2300 MB is ~2.25 GB)
-  VM_MEMORY = default_i('VM_MEMORY', 2300)
+  # Memory for the VM (in MB, 5000 MB)
+  VM_MEMORY = default_i('VM_MEMORY', 5000)
 
   # VM time zone
   # If not specified, will be set to match host time zone (if possible)
@@ -59,6 +59,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Oracle Database password for SYS, SYSTEM and PDBADMIN accounts
   # If left blank, the password will be generated automatically
   VM_ORACLE_PWD = default_s('VM_ORACLE_PWD', '')
+
+  # Hive metastore (MySQL) database user password
+  VM_HIVE_METASTORE_PWD = default_s('VM_HIVE_METASTORE_PWD', 'hive')
+
+  # Hive Web UI port
+  VM_HIVE_WEB_UI_PORT = default_i("VM_HIVE_WEB_UI_PORT", 10002)
+
+  # Use links for configuration files in the /vagrant directory
+  VM_KEEP_CONFIG_LINKS = default_b("VM_KEEP_CONFIGURATION_LINKS", false)
 end
 
 # Convenience methods
@@ -152,6 +161,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Oracle port forwarding
   config.vm.network "forwarded_port", guest: VM_LISTENER_PORT, host: VM_LISTENER_PORT
   config.vm.network "forwarded_port", guest: VM_EM_EXPRESS_PORT, host: VM_EM_EXPRESS_PORT
+  config.vm.network "forwarded_port", guest: 10002, host: VM_HIVE_WEB_UI_PORT
 
   # Provision everything on the first run
   config.vm.provision "shell", path: "scripts/install.sh", env:
@@ -161,7 +171,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
        "ORACLE_CHARACTERSET" => VM_ORACLE_CHARACTERSET,
        "LISTENER_PORT"       => VM_LISTENER_PORT,
        "EM_EXPRESS_PORT"     => VM_EM_EXPRESS_PORT,
-       "ORACLE_PWD"          => VM_ORACLE_PWD
+       "ORACLE_PWD"          => VM_ORACLE_PWD,
+       "HIVE_METASTORE_PWD"  => VM_HIVE_METASTORE_PWD,
+       "KEEP_CONFIG_LINKS"   => VM_KEEP_CONFIG_LINKS,
     }
 
 end
