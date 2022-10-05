@@ -5,19 +5,20 @@
 # Abort on any error
 set -Eeuo pipefail
 
-# Download Oracle KVStore Community Edition (33M)
+# Copy the Oracle KVStore Entreprise Edition from the /vagrant directory
 cd /usr/local
-if [[ ! -f kv-ce-21.2.46.tar.gz ]]; then
-    wget "https://download.oracle.com/otn-pub/otn_software/nosql-database/kv-ce-21.2.46.tar.gz"
+if [[ ! -f kv-22.2.13.zip ]]; then
+   cp /vagrant/V1030945-01.zip kv-22.2.13.zip
 fi
-if [[ ! -f kv-examples-21.2.19.zip ]]; then
-    wget "https://download.oracle.com/otn-pub/otn_software/nosql-database/kv-examples-21.2.19.zip"
+if [[ ! -f kv-examples-22.1.16.zip ]]; then
+    cp /vagrant/V1020129-01.zip kv-examples-22.1.16.zip
 fi
-if [[ ! -d $KVHOME ]]; then
-    tar zxvf kv-ce-21.2.46.tar.gz
-    unzip kv-examples-21.2.19.zip
-    cp -rn kv-21.2.19/* kv-21.2.46
-    ln -s kv-21.2.46 kv
+if [[ ! -d kv-22.2.13 ]]; then
+    unzip kv-22.2.13
+    unzip kv-examples-22.1.16.zip
+    cp -rn kv-22.1.16/* kv-22.2.13
+    rm -rf kv
+    ln -s kv-22.2.13 kv
 fi
 
 # Stop KVStore if it's already running
@@ -30,7 +31,7 @@ fi
 # Give vagrant user ownership over the KVStore and KVROOT
 rm -rf $KVROOT
 mkdir -p $KVROOT
-chown -R vagrant:vagrant /usr/local/kv-21.2.46
+chown -R vagrant:vagrant /usr/local/kv-22.2.13
 chown -R vagrant:vagrant $KVROOT
 
 # Configure KVStore

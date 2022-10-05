@@ -9,7 +9,7 @@ set -Eeuo pipefail
 yum update -y
 
 # Install git, JDK8, mysql vim
-yum install -y git java-1.8.0-openjdk-devel mysql-server vim
+yum install -y git java-1.8.0-openjdk-devel mysql-server vim nano
 
 # Install python 3.9
 dnf module install -y python39

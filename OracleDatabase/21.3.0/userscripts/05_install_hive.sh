@@ -38,8 +38,10 @@ if [[ ! -d mongo-hadoop ]]; then
 fi
 
 # Add KVStore libraries
-ln -sf $KVHOME/lib/kvclient.jar /usr/local/hive/lib/kvclient.jar
-ln -sf $KVHOME/lib/kvstore.jar /usr/local/hive/lib/kvstore.jar
+rm -rf /usr/local/hive/lib/kvclient.jar
+rm -rf /usr/local/hive/lib/kvstore.jar
+ln -s $KVHOME/lib/kvclient.jar /usr/local/hive/lib/kvclient.jar
+ln -s $KVHOME/lib/kvstore.jar /usr/local/hive/lib/kvstore.jar
 
 # Give vagrant user ownership over Hive
 chown -R vagrant:vagrant /usr/local/apache-hive-3.1.3-bin
