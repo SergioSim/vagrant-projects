@@ -14,6 +14,9 @@ makes configuration much easier
 2. Change into the `vagrant-projects/OracleDatabase/21.3.0` directory
 3. Download the installation zip file (`LINUX.X64_213000_db_home.zip`) from OTN into this directory - first time only:
 [http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html)
+AND download the Oracle NoSQL Database Enterprise Edition kv-ee-22.2.13 installation and examples zip
+(`V1030945-01.zip`, `V1020129-01.zip`) from the OTN into this directory - first time only:
+[https://www.oracle.com/database/technologies/nosql-database-server-downloads.html](https://www.oracle.com/database/technologies/nosql-database-server-downloads.html)
 4. Run `vagrant up`
    1. The first time you run this it will provision everything and may take a while. Ensure you have a good internet connection as the scripts will update the VM to the latest via `yum`.
    2. The installation can be customized, if desired (see [Configuration](#configuration)).

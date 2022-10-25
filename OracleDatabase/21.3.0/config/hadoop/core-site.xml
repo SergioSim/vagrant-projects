@@ -22,6 +22,10 @@
         <value>hdfs://localhost:9000</value>
     </property>
     <property>
+        <name>hadoop.tmp.dir</name>
+        <value>/var/hadoop</value>
+    </property>
+    <property>
         <name>hadoop.security.credential.provider.path</name>
         <value>jceks://hdfs/secrets/hive.jceks</value>
     </property>

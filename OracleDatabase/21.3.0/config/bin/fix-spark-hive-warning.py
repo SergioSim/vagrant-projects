@@ -182,7 +182,6 @@ tree = ET.parse(f"{HIVE_HOME}/conf/hive-site.xml")
 root = tree.getroot()
 for property in list(root.iter('property')):
     name = property.find("name").text
-    print(name)
     if name in PROPERTIES_TO_REMOVE:
         print(f"Removing property = {name}")
         root.remove(property)
