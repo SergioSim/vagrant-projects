@@ -35,7 +35,7 @@ fi
 __log_info 'Unzip KVStore and examples'
 unzip "${KV_VERSION}.zip"
 unzip "${KV_EXAMPLES_VERSION}.zip"
-cp -rn "${KV_EXAMPLES_VERSION}" "${KV_VERSION}"
+cp -rn "${KV_EXAMPLES_VERSION}"/* "${KV_VERSION}"
 ln -s "${KV_VERSION}" kv
 
 __log_info 'Give vagrant user ownership over the KVStore and KVROOT'

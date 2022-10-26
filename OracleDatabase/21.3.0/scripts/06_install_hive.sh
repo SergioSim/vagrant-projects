@@ -113,4 +113,25 @@ su -l vagrant -c 'nohup hiveserver2 > /dev/null &'
 __log_info 'Fix Hive warning appearing when starting pyspark'
 python3 /vagrant/config/bin/fix-spark-hive-warning.py
 
+__log_info 'Wait max 30sec for the HiveServer2 to start'
+HIVE_URL='jdbc:hive2://localhost:10000'
+HIVE_QUERY='show databases;'
+HIVESERVER_READY='FALSE'
+MAX_WAIT_TIME=30
+for i in $( seq 1 ${MAX_WAIT_TIME} )
+do
+    QUERY="$(beeline -u "${HIVE_URL}" -e "${HIVE_QUERY}" | grep -o database_name || true)"
+    if [[ "${QUERY}" = 'database_name' ]]; then
+        HIVESERVER_READY='TRUE'
+        break
+    fi
+    __log_info "Waiting for HiveServer2 to start ${i}/${MAX_WAIT_TIME}"
+    sleep 1
+done
+
+if [[ "${HIVESERVER_READY}" = "FALSE" ]]; then
+    __log_error 'HiveServer2 did not start'
+    exit 1
+fi
+
 __log_info 'Installed Hive with success'
