@@ -219,7 +219,7 @@ Parameters are considered in the following order (first one wins):
 ### VM parameters
 
 * `VM_NAME` (default: `oracle-21c-vagrant`): VM name.
-* `VM_MEMORY` (default: `2560`): memory for the VM (in MB, 2560 MB = 2.5 GB).
+* `VM_MEMORY` (default: `5120`): memory for the VM (in MB, 5120 MB = 5 GB).
 * `VM_SYSTEM_TIMEZONE` (default: host time zone (if possible)): VM time zone.
   * The system time zone is used by the database for SYSDATE/SYSTIMESTAMP.
   * The guest time zone will be set to the host time zone when the host time zone is a full hour offset from GMT.
