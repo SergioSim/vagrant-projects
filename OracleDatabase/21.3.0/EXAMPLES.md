@@ -42,7 +42,7 @@ quit()
 ### Stop MongoDB
 
 ```bash
-systemctl stop mongod
+sudo systemctl stop mongod
 ```
 
 

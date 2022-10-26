@@ -1,27 +1,175 @@
 # oracle-21c-vagrant
 
-This Vagrant project provisions Oracle Database automatically, using Vagrant, an Oracle Linux 8 box and a shell script.
+This Vagrant project builds an Oracle Linux 8 virtual machine.
 
-## Prerequisites
+The virtual machine is provisioned with scripts from the `scripts` directory,
+configuration files from the `config` directory and other installation files that need to
+be placed in the same directory as this `README.md`.
 
-1. Read the [prerequisites in the top level README](../../README.md#prerequisites) to set up Vagrant with either VirtualBox or KVM.
-2. The [vagrant-env](https://github.com/gosuri/vagrant-env) plugin is optional but
-makes configuration much easier
+The scripts install the following software:
 
-## Getting started
+- Oracle Database 21.0.3
+- MySQL 8.0.26 (or higher)
+- Apache Hadoop 3.3.4
+- Apache Spark 3.3.0
+- Oracle NoSQL Database Enterprise Edition (KVStore) 22.2.13 with examples 22.1.16
+- Apache Hive 3.1.3
+- MongoDB 4.4
+- JDK 8
+- Python 3.9
+- Editors: nano and vim
 
-1. Clone this repository `git clone https://github.com/oracle/vagrant-projects`
-2. Change into the `vagrant-projects/OracleDatabase/21.3.0` directory
-3. Download the installation zip file (`LINUX.X64_213000_db_home.zip`) from OTN into this directory - first time only:
+## Build the Virtual Machine
+
+This section explains how to build this virtual machine on your computer.
+
+### Prerequisites
+
+#### Hardware
+
+To build and run this project it is required that your computer `supports virtualization`, have `30G` of available disk space and `5G` of available RAM.
+
+#### Software
+
+1. Install a Git client (for example [git SCM](https://git-scm.com/download/win)).
+2. Install [Oracle VM VirtualBox 6.1](https://www.virtualbox.org/wiki/Download_Old_Builds_6_1) (Vagrant doesn't support VirtualBox version 7 at the time of writing).
+3. Install the [VirtualBox Extension Pack](https://download.virtualbox.org/virtualbox/6.1.40/Oracle_VM_VirtualBox_Extension_Pack-6.1.40.vbox-extpack).
+4. Install [Vagrant](https://www.vagrantup.com/) and (optionally) the [vagrant-env](https://github.com/gosuri/vagrant-env) plugin.
+
+### Setup installation files
+
+1. Clone this repository's staging branch.
+  ```bash
+  git clone -b staging https://github.com/SergioSim/vagrant-projects.git
+  ```
+2. Download the `Oracle Database 21.3.0` installation zip file (`LINUX.X64_213000_db_home.zip`) from OTN (the first time only) and place it in the `vagrant-projects/OracleDatabase/21.3.0` directory:
 [http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html)
-AND download the Oracle NoSQL Database Enterprise Edition kv-ee-22.2.13 installation and examples zip
-(`V1030945-01.zip`, `V1020129-01.zip`) from the OTN into this directory - first time only:
+3. Download the `Oracle NoSQL Database Enterprise Edition 22.2.13` installation zip file (`V1030945-01.zip`) and examples (`V1020129-01.zip`) from OTN (the first time only) and place it in the `vagrant-projects/OracleDatabase/21.3.0`:
 [https://www.oracle.com/database/technologies/nosql-database-server-downloads.html](https://www.oracle.com/database/technologies/nosql-database-server-downloads.html)
-4. Run `vagrant up`
-   1. The first time you run this it will provision everything and may take a while. Ensure you have a good internet connection as the scripts will update the VM to the latest via `yum`.
-   2. The installation can be customized, if desired (see [Configuration](#configuration)).
-5. Connect to the database (see [Connecting to Oracle](#connecting-to-oracle))
-6. You can shut down the VM via the usual `vagrant halt` and then start it up again via `vagrant up`
+
+### Build and start the virtual machine
+
+1. Open a terminal and change into the `vagrant-projects/OracleDatabase/21.3.0` directory.
+  ```bash
+  $ cd vagrant-projects/OracleDatabase/21.3.0
+  ```
+2. Run the `vagrant up` command in your terminal.
+  ```bash
+  $ vagrant up
+  ```
+
+- The first time you run this it will provision everything and may take a while. Ensure you have a **good internet connection** as the scripts will update the Virtual Machine via `yum`.
+- The installation can be customized, if desired (see [Configuration](#configuration)).
+- It might be useful to **keep the installation traces** (they can provide debugging information if something goes wrong or other useful information that might be needed afterwards, for example, the auto-generated Oracle Database passwords)
+
+## Interact with the virtual machine using vagrant
+
+Here we describe some common commands to interact with the virtual machine using vagrant.
+
+To start interacting with the virtual machine, open a terminal and change into the `vagrant-projects/OracleDatabase/21.3.0` directory.
+  ```bash
+  $ cd vagrant-projects/OracleDatabase/21.3.0
+  ```
+
+### Get virtual machine status information
+
+To get a short report about the current state of the virtual machine, you can use the following command:
+
+```bash
+$ vagrant status
+```
+
+The command should output something like:
+
+```
+Current machine states:
+
+oracle-21c-vagrant        running (virtualbox)
+```
+
+### Stop the virtual machine
+
+To stop the virtual machine you can use the following command:
+
+```bash
+$ vagrant halt
+```
+
+### Remove the virtual machine
+
+To remove the virtual machine completely you can use the following commands:
+
+```bash
+$ vagrant destroy
+$ vagrant box remove oraclelinux/8
+```
+
+### Start the virtual machine
+
+To start or restart the virtual machine you can use the following command:
+
+```bash
+$ vagrant up
+```
+
+> Note: Provisioning scripts **only run once** at the very first start.
+
+### Connect to the virtual machine via SSH
+
+To open a `SSH` connection with the virtual machine you can use the following command:
+
+```bash
+$ vagrant ssh
+```
+
+The command should provide you with a bash prompt for the `vagrant` user inside the virtual machine (without requiring a password):
+
+```
+[vagrant@oracle-21c-vagrant ~]$
+```
+
+> Note: the `vagrant` user has `sudo` privileges. If you would like to switch to the `root` user you can run the `sudo su -` command.
+
+## Common usage examples
+
+Once you have [connected to the virtual machine via ssh](#connect-to-the-virtual-machine-via-ssh) you can try out to run some of the common usage examples described in [EXAMPLES.md](./EXAMPLES.md)
+
+## Troubleshooting
+
+If some components of this virtual machine stop working it is possible to re-install
+them by re-running their corresponding provisioning scripts.
+
+- To reinstall prerequisites (JDK 8/vim/nano) and setup `.bashrc` and `.bash_profile`:
+  ```bash
+  vagrant provision --provision-with scripts/02_prerequisites.sh
+  ```
+- To reinstall Hadoop:
+  ```bash
+  vagrant provision --provision-with scripts/03_install_hadoop.sh
+  ```
+- To reinstall Spark
+  ```bash
+  vagrant provision --provision-with scripts/04_install_spark.sh
+  ```
+- To reinstall KVStore
+  ```bash
+  vagrant provision --provision-with scripts/05_install_kvstore.sh
+  ```
+- To reinstall Hive
+  ```bash
+  vagrant provision --provision-with scripts/06_install_hive.sh
+  ```
+- To reinstall MongoDB
+  ```bash
+  vagrant provision --provision-with scripts/07_install_mongodb.sh
+  ```
+
+There is also an utility provisioning script that lets you update all changes made
+in the `config` directory (it re-copies all files to their corresponding destination).
+
+```bash
+vagrant provision --provision-with scripts/update_config.sh
+```
 
 ## Connecting to Oracle
 
