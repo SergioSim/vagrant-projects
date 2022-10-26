@@ -44,7 +44,7 @@ To build and run this project it is required that your computer `supports virtua
   ```
 2. Download the `Oracle Database 21.3.0` installation zip file (`LINUX.X64_213000_db_home.zip`) from OTN (the first time only) and place it in the `vagrant-projects/OracleDatabase/21.3.0` directory:
 [http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html)
-3. Download the `Oracle NoSQL Database Enterprise Edition 22.2.13` installation zip file (`V1030945-01.zip`) and examples (`V1020129-01.zip`) from OTN (the first time only) and place it in the `vagrant-projects/OracleDatabase/21.3.0`:
+3. Download the `Oracle NoSQL Database Enterprise Edition 22.2.13` installation zip file (`V1030945-01.zip`) and examples (`V1020129-01.zip`) from OTN (the first time only) and place it in the `vagrant-projects/OracleDatabase/21.3.0` directory:
 [https://www.oracle.com/database/technologies/nosql-database-server-downloads.html](https://www.oracle.com/database/technologies/nosql-database-server-downloads.html)
 
 ### Build and start the virtual machine
