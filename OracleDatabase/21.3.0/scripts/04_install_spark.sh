@@ -8,16 +8,16 @@ set -Eeuo pipefail
 # Import utils
 source /vagrant/scripts/utils.sh
 
-SPARK_VERSION="spark-3.3.0-bin-hadoop3"
+SPARK_VERSION="spark-3.3.1-bin-hadoop3"
 
 cd /usr/local
 
 __log_info 'Remove previous Spark installation'
 rm -rf "${SPARK_HOME:?}" "${SPARK_VERSION:?}"
 
-if [[ ! -f ${SPARK_VERSION}.tgz ]]; then
+if [[ ! -f "${SPARK_VERSION}.tgz" ]]; then
     __log_info 'Download Spark (~285M)'
-    wget "https://dlcdn.apache.org/spark/spark-3.3.0/${SPARK_VERSION}.tgz"
+    wget "https://dlcdn.apache.org/spark/spark-3.3.1/${SPARK_VERSION}.tgz"
 fi
 
 __log_info 'Untar Spark (~285M)'
