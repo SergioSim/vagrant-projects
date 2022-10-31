@@ -33,8 +33,8 @@ if [[ ! -f "${KV_EXAMPLES_VERSION}.zip" ]]; then
 fi
 
 __log_info 'Unzip KVStore and examples'
-unzip "${KV_VERSION}.zip"
-unzip "${KV_EXAMPLES_VERSION}.zip"
+unzip -q "${KV_VERSION}.zip"
+unzip -q "${KV_EXAMPLES_VERSION}.zip"
 cp -rn "${KV_EXAMPLES_VERSION}"/* "${KV_VERSION}"
 ln -s "${KV_VERSION}" kv
 

@@ -22,7 +22,7 @@ chown vagrant:vagrant -R /var/hadoop
 
 if [[ ! -f "${HADOOP_VERSION}.tar.gz" ]]; then
     __log_info 'Download Hadoop (~615M)'
-    wget "https://dlcdn.apache.org/hadoop/common/${HADOOP_VERSION}/${HADOOP_VERSION}.tar.gz"
+    wget --progress=dot:giga "https://dlcdn.apache.org/hadoop/common/${HADOOP_VERSION}/${HADOOP_VERSION}.tar.gz"
 fi
 
 __log_info 'Untar Hadoop (~615M)'

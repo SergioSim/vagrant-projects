@@ -59,7 +59,7 @@ echo 'INSTALLER: Environment variables set'
 
 # Install Oracle
 
-unzip /vagrant/LINUX.X64_213000_db_home.zip -d "$ORACLE_HOME"/
+unzip -q /vagrant/LINUX.X64_213000_db_home.zip -d "$ORACLE_HOME"/
 cp /vagrant/ora-response/db_install.rsp.tmpl /tmp/db_install.rsp
 sed -i -e "s|###INVENTORY_LOCATION###|$inventory_location|g" /tmp/db_install.rsp
 sed -i -e "s|###ORACLE_BASE###|$ORACLE_BASE|g" /tmp/db_install.rsp
@@ -120,6 +120,11 @@ echo 'INSTALLER: Listener created'
 
 # Auto generate ORACLE PWD if not passed in
 export ORACLE_PWD=${ORACLE_PWD:-"$(openssl rand -base64 8)1"}
+
+# Add ORACLE_PWD to .bashrc
+cat >> /home/oracle/.bashrc << EOF
+export ORACLE_PWD=$ORACLE_PWD
+EOF
 
 cp /vagrant/ora-response/dbca.rsp.tmpl /tmp/dbca.rsp
 sed -i -e "s|###ORACLE_SID###|$ORACLE_SID|g" /tmp/dbca.rsp

@@ -29,7 +29,7 @@ rm -fr "${HIVE_HOME:?}" "${HIVE_VERSION:?}"
 
 if [[ ! -f "${HIVE_VERSION}.tar.gz" ]]; then
     __log_info 'Download Hive (~312M)' 
-    wget https://dlcdn.apache.org/hive/hive-3.1.3/${HIVE_VERSION}.tar.gz
+    wget --progress=dot:giga https://dlcdn.apache.org/hive/hive-3.1.3/${HIVE_VERSION}.tar.gz
 fi
 
 __log_info 'Untar Hive (~312M)'
@@ -40,7 +40,7 @@ __log_info 'Update the Hive configuration'
 cp -f /vagrant/config/hive/* "${HIVE_HOME}/conf"
 
 __log_info 'Download Mongo-Hive Java driver'
-wget 'https://repo1.maven.org/maven2/org/mongodb/mongo-java-driver/3.2.1/mongo-java-driver-3.2.1.jar'
+wget --progress=dot:binary 'https://repo1.maven.org/maven2/org/mongodb/mongo-java-driver/3.2.1/mongo-java-driver-3.2.1.jar'
 mv mongo-java-driver-3.2.1.jar "${HIVE_HOME}/lib"
 
 if [[ ! -d mongo-hadoop ]]; then
@@ -87,7 +87,7 @@ su -l vagrant -c 'hadoop fs -chmod g+w /user/hive/warehouse'
 
 __log_info 'Install MySQL java connector'
 if [[ ! -f "${HIVE_HOME}/lib/mysql-connector-java.jar" ]]; then
-    wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.30-1.el8.noarch.rpm
+    wget --progress=dot:binary https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.30-1.el8.noarch.rpm
     yum localinstall -y mysql-connector-java-8.0.30-1.el8.noarch.rpm
     rm mysql-connector-java-8.0.30-1.el8.noarch.rpm
     cp /usr/share/java/mysql-connector-java.jar ${HIVE_HOME}/lib

@@ -11,12 +11,16 @@ source /vagrant/scripts/utils.sh
 __log_info 'Update all current packages and their dependencies'
 dnf upgrade -y
 
-__log_info 'Install git, JDK8, mysql, vim and nano'
-dnf install -y git java-1.8.0-openjdk-devel mysql-server vim nano
-
-__log_info 'Install python 3.9'
+__log_info 'Install python 3.9, git, JDK8, mysql, vim and nano'
 dnf module install -y python39
-dnf install -y python3-requests python39-pip
+dnf install -y \
+    git \
+    java-1.8.0-openjdk-devel \
+    mysql-server \
+    nano \
+    python3-requests \
+    python39-pip \
+    vim
 
 __log_info 'Start MySQL'
 systemctl start mysqld

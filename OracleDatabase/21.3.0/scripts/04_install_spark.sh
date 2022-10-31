@@ -17,7 +17,7 @@ rm -rf "${SPARK_HOME:?}" "${SPARK_VERSION:?}"
 
 if [[ ! -f "${SPARK_VERSION}.tgz" ]]; then
     __log_info 'Download Spark (~285M)'
-    wget "https://dlcdn.apache.org/spark/spark-3.3.1/${SPARK_VERSION}.tgz"
+    wget --progress=dot:giga "https://dlcdn.apache.org/spark/spark-3.3.1/${SPARK_VERSION}.tgz"
 fi
 
 __log_info 'Untar Spark (~285M)'
