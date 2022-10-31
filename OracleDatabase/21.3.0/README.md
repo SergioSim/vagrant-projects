@@ -164,12 +164,26 @@ them by re-running their corresponding provisioning scripts.
   vagrant provision --provision-with scripts/07_install_mongodb.sh
   ```
 
-There is also an utility provisioning script that lets you update all changes made
-in the `config` directory (it re-copies all files to their corresponding destination).
+## Optional provisioners
 
-```bash
-vagrant provision --provision-with scripts/update_config.sh
-```
+Some optional/utility provisioning scripts are available.
+
+- To update all changes made in the `config` directory
+  (recopy all files to their corresponding destination).
+  ```bash
+  vagrant provision --provision-with scripts/update_config.sh
+  ```
+- To enable MongoDB authentication
+  > Note: It uses the `VM_MONGO_ADMIN_USERNAME` and `VM_MONGO_ADMIN_PASSWORD` environment
+  > variables to create the MongoDB administrative user.
+  ```bash
+  vagrant provision --provision-with 99_enable_mongodb_authentication.sh
+  ```
+- To disable MongoDB authentication
+  > Note: It doesn't remove the MongoDB administrative user.
+  ```bash
+  vagrant provision --provision-with 99_disable_mongodb_authentication.sh
+  ```
 
 ## Connecting to Oracle
 

@@ -79,8 +79,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Hive Web UI port
   VM_HIVE_WEB_UI_PORT = default_i("VM_HIVE_WEB_UI_PORT", 10002)
 
-  # Use links for configuration files in the /vagrant directory
-  VM_KEEP_CONFIG_LINKS = default_b("VM_KEEP_CONFIGURATION_LINKS", false)
+  # MongoDB administrator credentials
+  VM_MONGO_ADMIN_USERNAME = default_s("VM_MONGO_ADMIN_USERNAME", "admin")
+  VM_MONGO_ADMIN_PASSWORD = default_s("VM_MONGO_ADMIN_PASSWORD", "pass")
 end
 
 # Convenience methods
@@ -217,7 +218,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "scripts/07_install_mongodb.sh",
     type: "shell", inline: "/bin/bash /vagrant/scripts/07_install_mongodb.sh"
 
-  config.vm.provision "scripts/update_config.sh",
-    type: "shell", inline: "/bin/bash /vagrant/scripts/update_config.sh", run: "never"
+  config.vm.provision "scripts/99_update_config.sh",
+    type: "shell", inline: "/bin/bash /vagrant/scripts/99_update_config.sh", run: "never"
+
+  config.vm.provision "scripts/99_enable_mongodb_authentication.sh",
+    type: "shell",
+    inline: "/bin/bash /vagrant/scripts/99_enable_mongodb_authentication.sh",
+    run: "never",
+    env: {
+      "MONGO_ADMIN_USERNAME"  => VM_MONGO_ADMIN_USERNAME,
+      "MONGO_ADMIN_PASSWORD"  => VM_MONGO_ADMIN_PASSWORD
+    }
+
+  config.vm.provision "scripts/99_disable_mongodb_authentication.sh",
+    type: "shell",
+    inline: "/bin/bash /vagrant/scripts/99_disable_mongodb_authentication.sh",
+    run: "never"
 
 end
