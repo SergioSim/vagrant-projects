@@ -173,6 +173,11 @@ Some optional/utility provisioning scripts are available.
   ```bash
   vagrant provision --provision-with scripts/update_config.sh
   ```
+- To downgrade MongoDB version to 3.4
+  > Warning: This command removes all previous data stored on MongoDB.
+  ```bash
+  vagrant provision --provision-with scripts/99_downgrade_mongodb.sh
+  ```
 - To enable MongoDB authentication
   > Note: It uses the `VM_MONGO_ADMIN_USERNAME` and `VM_MONGO_ADMIN_PASSWORD` environment
   > variables to create the MongoDB administrative user.

@@ -235,4 +235,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     inline: "/bin/bash /vagrant/scripts/99_disable_mongodb_authentication.sh",
     run: "never"
 
+  config.vm.provision "scripts/99_downgrade_mongodb.sh",
+    type: "shell",
+    inline: "/bin/bash /vagrant/scripts/99_downgrade_mongodb.sh",
+    run: "never"
+
 end
