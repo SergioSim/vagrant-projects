@@ -8,7 +8,7 @@ set -Eeuo pipefail
 # Import utils
 source /vagrant/scripts/utils.sh
 
-KV_VERSION="kv-22.2.13"
+KV_VERSION="kv-22.3.27"
 KV_EXAMPLES_VERSION="kv-22.1.16"
 
 cd /usr/local
@@ -24,7 +24,7 @@ rm -rf "${KVHOME:?}" "${KV_VERSION:?}" "${KV_EXAMPLES_VERSION:?}"
 
 if [[ ! -f "${KV_VERSION}.zip" ]]; then
     __log_info 'Copy the Oracle KVStore Entreprise Edition (V1030945-01.zip) from the /vagrant directory'
-   cp /vagrant/V1030945-01.zip "${KV_VERSION}.zip"
+   cp /vagrant/V1033769-01.zip "${KV_VERSION}.zip"
 fi
 
 if [[ ! -f "${KV_EXAMPLES_VERSION}.zip" ]]; then
