@@ -14,9 +14,10 @@ The scripts install the following software:
 - Apache Spark 3.3.1
 - Oracle NoSQL Database Enterprise Edition (KVStore) 22.3.27 with examples 22.1.16
 - Apache Hive 3.1.3
-- MongoDB 4.4
+- MongoDB 3.4
 - JDK 8
 - Python 3.9
+- R 4.2.2 (or higher)
 - Editors: nano and vim
 
 ## Build the Virtual Machine
@@ -162,6 +163,10 @@ them by re-running their corresponding provisioning scripts.
 - To reinstall MongoDB
   ```bash
   vagrant provision --provision-with scripts/07_install_mongodb.sh
+  ```
+- To reinstall R
+  ```bash
+  vagrant provision --provision-with scripts/08_install_R.sh
   ```
 
 ## Optional provisioners

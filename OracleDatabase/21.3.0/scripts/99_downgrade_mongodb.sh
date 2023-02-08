@@ -8,13 +8,14 @@ set -Eeuo pipefail
 # Import utils
 source /vagrant/scripts/utils.sh
 
-__log_info 'Update /etc/yum.repos.d/mongodb-org-4.4.repo'
+__log_info 'Update /etc/yum.repos.d/mongodb-org-3.4.repo'
+sudo rm -f /etc/yum.repos.d/mongodb-org-4.4.repo
 echo '[mongodb-org-3.4]
 name=MongoDB Repository
 baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
 gpgcheck=1
 enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc' | sudo tee /etc/yum.repos.d/mongodb-org-4.4.repo
+gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc' | sudo tee /etc/yum.repos.d/mongodb-org-3.4.repo
 
 __log_info 'Remove previous MongoDB installation'
 sudo dnf remove -y mongodb-org
