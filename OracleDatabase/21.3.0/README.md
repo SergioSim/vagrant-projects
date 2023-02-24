@@ -12,7 +12,7 @@ The scripts install the following software:
 - MySQL 8.0.26 (or higher)
 - Apache Hadoop 3.3.4
 - Apache Spark 3.3.2
-- Oracle NoSQL Database Enterprise Edition (KVStore) 22.3.27 with examples 22.1.16
+- Oracle NoSQL Database Enterprise Edition (KVStore) 22.3.32 with examples 22.1.16
 - Apache Hive 3.1.3
 - MongoDB 3.4
 - JDK 8
@@ -45,8 +45,12 @@ To build and run this project it is required that your computer `supports virtua
   ```
 2. Download the `Oracle Database 21.3.0` installation zip file (`LINUX.X64_213000_db_home.zip`) from OTN (the first time only) and place it in the `vagrant-projects/OracleDatabase/21.3.0` directory:
 [http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html)
-3. Download the `Oracle NoSQL Database Enterprise Edition 22.3.27` installation zip file (`V1033769-01.zip`) and examples (`V1020129-01.zip`) from OTN (the first time only) and place it in the `vagrant-projects/OracleDatabase/21.3.0` directory:
+3. Download the `Oracle NoSQL Database Enterprise Edition 22.3.32` installation zip file (`V1034077-01.zip`) and examples (`V1020129-01.zip`) from OTN (the first time only) and place it in the `vagrant-projects/OracleDatabase/21.3.0` directory:
 [https://www.oracle.com/database/technologies/nosql-database-server-downloads.html](https://www.oracle.com/database/technologies/nosql-database-server-downloads.html)
+
+> Note: **Do not** unzip the installation files. Double check that the installation
+> filenames match : `LINUX.X64_213000_db_home.zip`, `V1034077-01.zip` and
+> `V1020129-01.zip`.
 
 ### Build and start the virtual machine
 

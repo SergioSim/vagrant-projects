@@ -95,23 +95,23 @@ stop-dfs.sh
 ### Start KVStore using KVLite utility
 
 ```bash
-nohup java -Xmx64m -Xms64m -jar $KVHOME/lib/kvstore.jar kvlite -secure-config disable -root $KVROOT > kvstore.log 2>&1 &
+nohup java -Xmx256m -Xms256m -jar $KVHOME/lib/kvstore.jar kvlite -secure-config disable -root $KVROOT > kvstore.log 2>&1 &
 ```
 
 ### Ping KVStore
 
 ```bash
-java -Xmx64m -Xms64m -jar $KVHOME/lib/kvstore.jar ping -host localhost -port 5000
+java -Xmx256m -Xms256m -jar $KVHOME/lib/kvstore.jar ping -host localhost -port 5000
 ```
 
 ### Start KVStoreAdminClient
 ```bash
-java -Xmx64m -Xms64m -jar $KVHOME/lib/kvstore.jar runadmin -host localhost -port 5000
+java -Xmx256m -Xms256m -jar $KVHOME/lib/kvstore.jar runadmin -host localhost -port 5000
 ```
 
 ### Start SQL Shell
 ```bash
-java -Xmx64m -Xms64m -jar $KVHOME/lib/sql.jar -helper-hosts localhost:5000 -store kvstore
+java -Xmx256m -Xms256m -jar $KVHOME/lib/sql.jar -helper-hosts localhost:5000 -store kvstore
 ```
 
 ### Usage examples
@@ -146,7 +146,7 @@ java -cp $CLASSPATH:examples hadoop.table.LoadVehicleTable -store kvstore -host 
 ### Stop KVStore
 
 ```bash
-java -Xmx64m -Xms64m -jar $KVHOME/lib/kvstore.jar stop -root $KVROOT
+java -Xmx256m -Xms256m -jar $KVHOME/lib/kvstore.jar stop -root $KVROOT
 ```
 
 
@@ -164,6 +164,9 @@ nohup hiveserver2 > hive_server.log 2>&1 &
 ```
 
 ### Connect to Hive
+
+> Note: Prior connecting to Hive, make sure to wait for 1-3 minutes after
+> launching HiveServer2 as the Hive service needs some time to become operational.
 
 ```bash
 beeline -u jdbc:hive2://localhost:10000 vagrant
