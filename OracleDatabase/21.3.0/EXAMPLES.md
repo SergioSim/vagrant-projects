@@ -95,7 +95,7 @@ stop-dfs.sh
 ### Start KVStore using KVLite utility
 
 ```bash
-nohup java -Xmx64m -Xms64m -jar $KVHOME/lib/kvstore.jar kvlite -secure-config disable -root $KVROOT &
+nohup java -Xmx64m -Xms64m -jar $KVHOME/lib/kvstore.jar kvlite -secure-config disable -root $KVROOT > kvstore.log 2>&1 &
 ```
 
 ### Ping KVStore
@@ -155,9 +155,12 @@ java -Xmx64m -Xms64m -jar $KVHOME/lib/kvstore.jar stop -root $KVROOT
 
 ### Start Hive (Metastore service & HiveServer2)
 
+> Note: Prior starting Hive, it is required that Hadoop services are running.
+> See [Start Hadoop](#start-hadoop-hdfs--yarn)
+
 ```bash
-nohup hive --service metastore > /dev/null &
-nohup hiveserver2 > /dev/null &
+nohup hive --service metastore > hive_metastore.log 2>&1 &
+nohup hiveserver2 > hive_server.log 2>&1 &
 ```
 
 ### Connect to Hive
