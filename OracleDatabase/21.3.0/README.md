@@ -198,6 +198,16 @@ Some optional/utility provisioning scripts are available.
   ```bash
   vagrant provision --provision-with 99_disable_mongodb_authentication.sh
   ```
+- To install Kafka
+  > Note: Kafka consumes 1.5 G of additional RAM, consider increasing the VM_MEMORY up
+  > to 6-7G in the Vagrantfile or stop unused services to save memory.
+
+  > Note: running the `02_prerequisites.sh` script is only required if you have
+  > installed the VM prior to the Kafka installation addition.
+  ```
+  vagrant provision --provision-with scripts/02_prerequisites.sh
+  vagrant provision --provision-with scripts/99_install_kafka.sh
+  ```
 
 ## Connecting to Oracle
 

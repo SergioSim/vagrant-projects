@@ -260,3 +260,49 @@ select type,make,model,class,color,price,count,dealerid from vehicletable;
 ```bash
 pkill -f "HiveMetaStore|HiveServer2"
 ```
+
+## Apache Kafka
+
+[Original version](https://kafka.apache.org/documentation)
+
+### Install Kafka
+
+See [Optional Provisioners](./README.md#optional-provisioners) section.
+
+### Start Kafka
+
+```bash
+# Start Zookeeper
+nohup ${KAFKA_HOME}/bin/zookeeper-server-start.sh \
+    ${KAFKA_HOME}/config/zookeeper.properties > zookeeper.log 2>&1 &
+# Start Kafka broker
+nohup ${KAFKA_HOME}/bin/kafka-server-start.sh \
+    ${KAFKA_HOME}/config/server.properties > kafka.log 2>&1 &
+```
+
+### Stop Kafka
+
+```bash
+# Stop Kafka broker
+kill $(jps | grep "Kafka" | cut -d' ' -f 1)
+# Stop Zookeeper
+kill $(jps | grep "QuorumPeerMain" | cut -d' ' -f 1 )
+```
+
+### Create Kafka Topic
+
+```bash
+${KAFKA_HOME}/bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092
+```
+
+### Write events into Kafka Topic
+
+```bash
+echo -e "Hello\nWord" | ${KAFKA_HOME}/bin/kafka-console-producer.sh --topic quickstart-events --bootstrap-server localhost:9092
+```
+
+### Read events from Kafka Topic
+
+```bash
+${KAFKA_HOME}/bin/kafka-console-consumer.sh --topic quickstart-events --from-beginning --bootstrap-server localhost:9092
+```

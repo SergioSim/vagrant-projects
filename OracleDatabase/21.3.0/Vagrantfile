@@ -215,11 +215,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "HIVE_METASTORE_PWD"  => VM_HIVE_METASTORE_PWD,
     }
 
-  config.vm.provision "scripts/08_install_R.sh",
-    type: "shell", inline: "/bin/bash /vagrant/scripts/08_install_R.sh"
-
   config.vm.provision "scripts/07_install_mongodb.sh",
     type: "shell", inline: "/bin/bash /vagrant/scripts/07_install_mongodb.sh"
+
+  config.vm.provision "scripts/08_install_R.sh",
+    type: "shell", inline: "/bin/bash /vagrant/scripts/08_install_R.sh"
 
   config.vm.provision "scripts/99_update_config.sh",
     type: "shell", inline: "/bin/bash /vagrant/scripts/99_update_config.sh", run: "never"
@@ -241,6 +241,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "scripts/99_downgrade_mongodb.sh",
     type: "shell",
     inline: "/bin/bash /vagrant/scripts/99_downgrade_mongodb.sh",
+    run: "never"
+
+  config.vm.provision "scripts/99_install_kafka.sh",
+    type: "shell",
+    inline: "/bin/bash /vagrant/scripts/99_install_kafka.sh",
     run: "never"
 
 end

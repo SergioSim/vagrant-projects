@@ -27,11 +27,14 @@ export HIVE_HOME=/usr/local/hive
 export METASTORE_HOME=$HIVE_HOME
 export PATH=$PATH:$HIVE_HOME/bin
 
-# KVSTORE
+# KVSTORE ENVIRONMENT VARIABLES
 export KVHOME=/usr/local/kv
 export KVROOT=/var/kv
 export MALLOC_ARENA_MAX=1
 export PATH=$PATH:$KVHOME/exttab/bin
+
+# KAFKA ENVIRONMENT VARIABLES
+export KAFKA_HOME=/usr/local/kafka
 
 # JAVA CLASSPATH (to compile Hadoop & KVStore programs)
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
