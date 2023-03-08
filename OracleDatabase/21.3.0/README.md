@@ -208,6 +208,33 @@ Some optional/utility provisioning scripts are available.
   vagrant provision --provision-with scripts/02_prerequisites.sh
   vagrant provision --provision-with scripts/99_install_kafka.sh
   ```
+- To install Sqoop
+  > Note: running the `02_prerequisites.sh` script is only required if you have
+  > installed the VM prior to the Sqoop installation addition.
+  ```
+  vagrant provision --provision-with scripts/02_prerequisites.sh
+  vagrant provision --provision-with scripts/99_install_sqoop.sh
+  ```
+  > Note: Sqoop doesn't work well with Yarn in "local" mode. It is required to change
+  > Yarn's deployment mode to "pseudo-distributed" by editing
+  > `/usr/local/hadoop/etc/hadoop/mapred-site.xml` and setting the value of the
+  > property: `mapreduce.framework.name` to `yarn`:
+  > ```
+  > <property>
+  >     <name>mapreduce.framework.name</name>
+  >     <value>yarn</value>
+  >     <description>
+  >       Local mode runs faster in a single node setup for simple tasks.
+  >       To use pseudo-distributed mode set the value to "yarn".
+  >     </description>
+  > </property>
+  > ```
+  > For the changes to apply - restart Yarn:
+  > ```
+  > stop-yarn.sh
+  > start-yarn.sh
+  > ```
+
 
 ## Connecting to Oracle
 

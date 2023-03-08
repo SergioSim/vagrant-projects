@@ -306,3 +306,22 @@ echo -e "Hello\nWord" | ${KAFKA_HOME}/bin/kafka-console-producer.sh --topic quic
 ```bash
 ${KAFKA_HOME}/bin/kafka-console-consumer.sh --topic quickstart-events --from-beginning --bootstrap-server localhost:9092
 ```
+
+
+## Sqoop
+
+### Import data from MySQL to Hive
+
+```bash
+# Create test database and aux table in Hive
+beeline -u jdbc:hive2://localhost:10000 -e "
+    CREATE DATABASE IF NOT EXISTS test;
+    DROP TABLE IF EXISTS test.aux;
+    CREATE TABLE IF NOT EXISTS test.aux (mt_key1 STRING, mt_key2 INT, mt_comment STRING)
+    ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+"
+# Import MySQL table to Hive with Sqoop
+sqoop import -D org.apache.sqoop.splitter.allow_text_splitter=true --connect jdbc:mysql://localhost:3306/metastore?characterEncoding=latin1 --driver com.mysql.cj.jdbc.Driver --username hive --password hive --table AUX_TABLE --fields-terminated-by ',' --lines-terminated-by '\n' --hive-import --hive-table test.aux
+# Check that the table was imported to Hive
+beeline -u jdbc:hive2://localhost:10000 -e "SELECT * FROM test.aux;"
+```
