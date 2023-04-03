@@ -25,7 +25,7 @@ if [[ -n "${HIVE_SERVER_PID}" ]]; then
 fi
 
 __log_info 'Remove previous Hive installation'
-rm -fr "${HIVE_HOME:?}" "${HIVE_VERSION:?}"
+rm -fr "${HIVE_HOME:?}" "${HIVE_VERSION:?}" mongo-hadoop
 
 if [[ ! -f "${HIVE_VERSION}.tar.gz" ]]; then
     __log_info 'Download Hive (~312M)' 
@@ -43,19 +43,17 @@ __log_info 'Download Mongo-Hive Java driver'
 wget --progress=dot:binary 'https://repo1.maven.org/maven2/org/mongodb/mongo-java-driver/3.2.1/mongo-java-driver-3.2.1.jar'
 mv mongo-java-driver-3.2.1.jar "${HIVE_HOME}/lib"
 
-if [[ ! -d mongo-hadoop ]]; then
-    __log_info 'Setup Mongo-Hive connector'
-    git clone -b hadoop3.1.0_hive3.1.1 https://github.com/RameshByndoor/mongo-hadoop.git
-    cd mongo-hadoop
-    ./gradlew core:jar
-    ./gradlew hive:jar
-    cd ..
-    chown -R vagrant:vagrant /usr/local/mongo-hadoop
-    ln -sf /usr/local/mongo-hadoop/core/build/libs/mongo-hadoop-core-2.0.2.jar \
-        "${HIVE_HOME}/lib/mongo-hadoop-core-2.0.2.jar"
-    ln -sf /usr/local/mongo-hadoop/hive/build/libs/mongo-hadoop-hive-2.0.2.jar \
-        "${HIVE_HOME}/lib/mongo-hadoop-hive-2.0.2.jar"
-fi
+__log_info 'Setup Mongo-Hive connector'
+git clone -b hadoop3.1.0_hive3.1.1 https://github.com/RameshByndoor/mongo-hadoop.git
+cd mongo-hadoop
+./gradlew core:jar
+./gradlew hive:jar
+cd ..
+chown -R vagrant:vagrant /usr/local/mongo-hadoop
+ln -sf /usr/local/mongo-hadoop/core/build/libs/mongo-hadoop-core-2.0.2.jar \
+    "${HIVE_HOME}/lib/mongo-hadoop-core-2.0.2.jar"
+ln -sf /usr/local/mongo-hadoop/hive/build/libs/mongo-hadoop-hive-2.0.2.jar \
+    "${HIVE_HOME}/lib/mongo-hadoop-hive-2.0.2.jar"
 
 __log_info 'Add KVStore libraries'
 rm -rf "${HIVE_HOME:?}/lib/kvclient.jar"
