@@ -20,7 +20,7 @@ export PATH=$PATH:$SPARK_HOME/bin
 export PYSPARK_DRIVER_PYTHON=/bin/python3
 export PYSPARK_PYTHON=/bin/python3
 export SPARK_LOCAL_IP=0.0.0.0
-export LD_LIBRARY_PATH=$HADOOP_COMMON_LIB_NATIVE_DIR
+export LD_LIBRARY_PATH=$HADOOP_COMMON_LIB_NATIVE_DIR:/usr/lib/jvm/jre/lib/amd64/server
 
 # HIVE ENVIRONMENT VARIABLES
 export HIVE_HOME=/usr/local/hive
