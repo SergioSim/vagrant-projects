@@ -1,2 +1,4 @@
 .env.local*
 *.box
+.ipynb_checkpoints/
+.Trash-*

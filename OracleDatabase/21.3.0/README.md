@@ -234,6 +234,15 @@ Some optional/utility provisioning scripts are available.
   > stop-yarn.sh
   > start-yarn.sh
   > ```
+- To install Jupyter Notebook
+  ```
+  vagrant provision --provision-with scripts/99_install_jupyter.sh
+  ```
+  To start Jupyter Notebook (inside the VM):
+  ```
+  cd /vagrant
+  jupyter notebook --ip=0.0.0.0
+  ```
 
 
 ## Connecting to Oracle
