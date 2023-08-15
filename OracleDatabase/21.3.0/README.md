@@ -33,9 +33,14 @@ To build and run this project it is required that your computer `supports virtua
 #### Software
 
 1. Install a Git client (for example [git SCM](https://git-scm.com/download/win)).
-2. Install [Oracle VM VirtualBox 6.1](https://www.virtualbox.org/wiki/Download_Old_Builds_6_1) (Vagrant doesn't support VirtualBox version 7 at the time of writing).
-3. Install the [VirtualBox Extension Pack](https://download.virtualbox.org/virtualbox/6.1.40/Oracle_VM_VirtualBox_Extension_Pack-6.1.40.vbox-extpack).
+2. Install [Oracle VM VirtualBox](https://www.virtualbox.org/wiki/Downloads).
+3. Install the VirtualBox Extension Pack matching the version of the VirtualBox
+   installation. [Example for version: 7.0.10](https://download.virtualbox.org/virtualbox/7.0.10/Oracle_VM_VirtualBox_Extension_Pack-7.0.10.vbox-extpack).
 4. Install [Vagrant](https://www.vagrantup.com/) and (optionally) the [vagrant-env](https://github.com/gosuri/vagrant-env) plugin.
+5. Install `vagrant-vbguest` plugin using the following command:
+   ```
+   vagrant plugin install vagrant-vbguest
+   ```
 
 ### Setup installation files
 
