@@ -1,0 +1,169 @@
+
+db.clients.insertMany([
+{
+   "_id":1,
+   "nom":"Martin",
+   "prenom":[
+      "Aaron",
+      "Frida"
+   ],
+   "telephone":"673212284",
+   "DateNaiss":"01/01/1980",
+   "adresse":{
+      "numero":11,
+      "rue":"Allée Cavendish",
+      "codePostal":"06000",
+      "ville":"Nice",
+      "pays":"France"
+   }
+},
+{
+   "_id":2,
+   "nom":"Bernard",
+   "prenom":[
+      "Abel"
+   ],
+   "telephone":"673212285",
+   "DateNaiss":"05/05/1984",
+   "adresse":{
+      "numero":12,
+      "rue":"Allée de la Chapelle Saint-Pierre",
+      "codePostal":"06000",
+      "ville":"Nice",
+      "pays":"France"
+   }
+},
+{
+   "_id":3,
+   "nom":"Dubois",
+   "prenom":[
+      "Abella",
+      "Mehdi"
+   ],
+   "telephone":"673212286",
+   "DateNaiss":"02/02/1990",
+   "adresse":{
+      "numero":13,
+      "rue":"Rue la Fontaine aux Oiseaux",
+      "codePostal":"06000",
+      "ville":"Nice",
+      "pays":"France"
+   }
+},
+{
+   "_id":4,
+   "nom":"Thomas",
+   "prenom":[
+      "Abélard"
+   ],
+   "telephone":"673212287",
+   "DateNaiss":"01/06/1987",
+   "adresse":{
+      "numero":14,
+      "rue":"Rue La Palmeraie",
+      "codePostal":"France",
+      "ville":"Nice",
+      "pays":"France"
+   }
+},
+{
+   "_id":5,
+   "nom":"Walter",
+   "prenom":[
+      "Robert"
+   ],
+   "telephone":"673212288",
+   "DateNaiss":"01/08/1983",
+   "adresse":{
+      "numero":15,
+      "rue":"Rue de la Résistance",
+      "codePostal":"10001",
+      "ville":"New-york",
+      "pays":"USA"
+   }
+},
+{
+   "_id":6,
+   "nom":"Richard",
+   "prenom":[
+      "Maria",
+      "Abondance"
+   ],
+   "telephone":"673212289",
+   "DateNaiss":"12/01/1980",
+   "adresse":{
+      "numero":16,
+      "rue":"Allée des Citronniers",
+      "codePostal":"75001",
+      "ville":"Paris",
+      "pays":"France"
+   }
+},
+{
+   "_id":7,
+   "nom":"Petit",
+   "prenom":[
+      "Abraham",
+      "Leonard"
+   ],
+   "telephone":"673212290",
+   "DateNaiss":"01/08/1980",
+   "adresse":{
+      "numero":17,
+      "rue":"Allée des Faunes",
+      "codePostal":"69001",
+      "ville":"Lyon",
+      "pays":"France"
+   }
+},
+{
+   "_id":8,
+   "nom":"Durand",
+   "prenom":[
+      "Mari",
+      "Achille"
+   ],
+   "telephone":"673212291",
+   "DateNaiss":"01/09/1989",
+   "adresse":{
+      "numero":18,
+      "rue":"Rue des Isnards",
+      "codePostal":"75001",
+      "ville":"Paris",
+      "pays":"France"
+   }
+},
+{
+   "_id":9,
+   "nom":"Leroy",
+   "prenom":[
+      "Ada",
+      "Mousse"
+   ],
+   "telephone":"673212292",
+   "DateNaiss":"28/07/1985",
+   "adresse":{
+      "numero":19,
+      "rue":"Rue des Lucioles",
+      "codePostal":"13001",
+      "ville":"Marseille",
+      "pays":"France"
+   }
+},
+{
+   "_id":10,
+   "nom":"Moreau",
+   "prenom":[
+      "Adam"
+   ],
+   "telephone":"673212293",
+   "DateNaiss":"03/02/1990",
+   "adresse":{
+      "numero":20,
+      "rue":"Allée des Palmiers",
+      "codePostal":"31000",
+      "ville":"Toulouse",
+      "pays":"France"
+   }
+}
+])

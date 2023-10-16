@@ -1,0 +1,471 @@
+--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--++ Exercice MOOCEBFR4 : Ingénierie des Données du Big Data : SGBD NoSql et Lacs de Données avec Big Data SQL
+--++ par la pratique
+--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+--------------------------------------------------------------------------------------------------------
+-- Section 1 : s'assurer que la VM a bien été installée
+--
+-- Avant de commencer les activités, vous devez vous assuser que la machine virtuelles big Data contenant 
+-- les composants suivants: l'environnement HADOOP (Hadoop hdfs, hadoop hive, ...), Oracle Nosql, MongoDB,
+-- Oracle 21c, R, kafka, ...) est installée.
+-- Cet envirionnement servira pour les exercices des modules :
+-- 	. Exercices Module M4.2 : Introduction à Oracle NOSQL 
+--  . Exercices Module M4.3 : Oracle NoSql et le Modèle Key/Document
+--  . Exercices Module M4.4 : INTRODUCTION A MONGODB ET LE MONGO SHELL
+--  . Exercices Module M4.5 : INTRODUCTION A MONGODB ET SON API JAVA
+--  . Exercices Module M4.6 : Architectures Big data et construction de lacs de Données avec Big Data SQL 
+--    par la pratique
+--
+-- Si la machine virtuelle Big data n'est pas encore installée, vous devez suivre la procédure qui est dans 
+-- les ressources complémentaires :
+-- ..\1Ressources_complementaires_Mooc_BigData\4Installations\3_MV_BIGDATA_SERGIO_INSTALLATION_RECOMMANDE
+-- ou il y a lien vers la procedure d'installation de Sergio. 
+
+--------------------------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------
+-- Section 2 : s'assurer que les principaux composant de  VM tournent
+--
+-- Avant de commencer les activités, vous devez vous assuser que la machine virtuelles big Data contenant 
+-- les composants suivants: l'environnement HADOOP (Hadoop hdfs, hadoop hive, ...), Oracle Nosql, MongoDB,
+-- Oracle 21c, R, kafak, ...) TOURNE.
+-- Cet envirionnement servira pour les exercices des modules :
+-- 	. Exercices Module M4.2 : Introduction à Oracle NOSQL 
+--  . Exercices Module M4.3 : Oracle NoSql et le Modèle Key/Document
+--  . Exercices Module M4.4 : INTRODUCTION A MONGODB ET LE MONGO SHELL
+--  . Exercices Module M4.5 : INTRODUCTION A MONGODB ET SON API JAVA
+--  . Exercices Module M4.6 : Architectures Big data et construction de lacs de Données avec Big Data SQL 
+--    par la pratique
+--
+-- Si la machine virtuelle Big data ne tourne pas, vous devez suivre la procédure ci-dessous pour démarrer
+-- la MV et les composants :
+--
+
+-- Se placer dans votre dossier ou la VM est installée
+
+-- REMPLACER LE CHEMIN DE LA VM (C:\Logiciels\19VM_SERGIO\vagrant-projects\OracleDatabase\21.3.0) 
+-- CI-DESSOUS ET PARTOUT PAR LE VOTRE
+cmd
+
+cd C:\Logiciels\19VM_SERGIO\vagrant-projects\OracleDatabase\21.3.0
+
+-- Créer la variable d''environnement VAGRANT_HOME qui servira plus tard
+set VAGRANT_HOME=C:\Logiciels\19VM_SERGIO\vagrant-projects\OracleDatabase\21.3.0
+
+-- vérifier si la vm tourne
+vagrant status
+
+Current machine states:
+
+oracle-21c-vagrant        poweroff (virtualbox)
+
+The VM is powered off. To restart the VM, simply run 'vagrant up'
+
+-- vérifier le status global
+vagrant global-status
+
+The above shows information about all known Vagrant environments
+on this machine. This data is cached and may not be completely
+up-to-date (use "vagrant global-status --prune" to prune invalid
+entries). To interact with any of the machines, you can go to that
+directory and run Vagrant, or you can use the ID directly with
+Vagrant commands from any directory. For example:
+"vagrant destroy 1a2b3c4d"
+
+
+
+-- Arrêter si nécfessaire puis Activer la machine virtuelle Big Data
+vagrant halt
+
+vagrant up
+
+-- S''il des erreurs veuillez contacter l'administreur de la VM
+
+-- Pour lancer des composants, se connecter à la VM via SSH en lançant
+cmd
+
+cd C:\Logiciels\19VM_SERGIO\vagrant-projects\OracleDatabase\21.3.0
+
+vagrant ssh
+
+----------------------------------------------------------------------------------------------------------------
+-- Oracle NOSQL sur vagrant 
+-- démarrage du serveur oracle nosql au premier lancement de la VM en mode non secure
+----------------------------------------------------------------------------------------------------------------
+
+nohup java -Xmx64m -Xms64m -jar $KVHOME/lib/kvstore.jar kvlite -secure-config disable -root $KVROOT &
+-- 
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage de Hadoop
+----------------------------------------------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage de Hadoop HDFS
+----------------------------------------------------------------------------------------------------------------
+
+start-dfs.sh
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage de Hadoop YARN
+----------------------------------------------------------------------------------------------------------------
+
+start-yarn.sh
+
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage du serveur Hadoop HIVE
+----------------------------------------------------------------------------------------------------------------
+
+
+nohup hive --service metastore > /dev/null &
+nohup hiveserver2 > /dev/null &
+
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage de MongoDB
+----------------------------------------------------------------------------------------------------------------
+
+-- Automaquement 
+
+-- Attention ces exercices peuvent être réalisées avec une version MongoDB hors de la Machine Virtuel
+-- Il faut pour cela suivre la procédure d'installation correspondant à votre OS disponible ici :
+-- ..\3Mooc_BigData_BDNOSQL_DATA_LAKE\1Ressources_complementaires_Mooc_BigData\4Installations\4_MONGODB_STAND_ALONE_EN_LOCAL
+
+
+-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$ FIN DU DEMARRAGE DES COMPOSANTS SERVEURS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+--**************************************************************************************************************
+--* Exercices Module M4.2 : Introduction à Oracle NOSQL 
+--**************************************************************************************************************
+-- voir les Exercices du Module M4.2 
+
+--**************************************************************************************************************
+--* Exercices Module M4.3 : Oracle NoSql et le Modèle Key/Document 
+--**************************************************************************************************************
+-- voir les Exercices du Module M4.3 
+
+--**************************************************************************************************************
+--* Exercices Module M4.4 : INTRODUCTION A MONGODB ET LE MONGO SHELL 
+--**************************************************************************************************************
+-- voir les Exercices du Module M4.4 
+
+--**************************************************************************************************************
+--* Exercices Module M4.5 : INTRODUCTION A MONGODB ET SON API JAVA 
+--* L'objectif ici est de mettre en oeuvre par la pratique les concepts étudiés dans le module M4.5 :
+--* M4.5.0: Préparation de l'envirionnement 
+--* M4.5.1: Programmation des classes Employe.java et Dept.java 
+--* M4.5.2: Programmation des classes Client.java et Vol.java 
+--**************************************************************************************************************
+
+--**************************************************************************************************************
+--* M4.5.0: Préparation de l'envirionnement 
+--* Il faut créer dans votre machine virtuelle un répertoire TpBigData s'il n'a pas encore été créé
+--* Sous TpBigData, créer les sous-dossiers suivants :
+--* tpnosql : qui contiendra les ressources pour les exercices autour d'oracle NOSQL
+--* tpmongo : qui contiendra les ressources pour les exercices autour de mongodb
+--* etc.
+--**************************************************************************************************************
+
+----------------------------------------------------------------------------------------------------------------
+-- Il faut créer dans le dossier vagrant le dossier TpBigData si ce n'est déjà fait
+----------------------------------------------------------------------------------------------------------------
+
+[vagrant@oracle-21c-vagrant ~]$ ls /vagrant -la
+
+total 3066469
+drwxrwxrwx.  1 vagrant vagrant       4096 Aug 15 12:00 .
+dr-xr-xr-x. 20 root    root           262 Dec  2  2022 ..
+drwxrwxrwx.  1 vagrant vagrant       4096 Dec  2  2022 config
+-rwxrwxrwx.  1 vagrant vagrant       1358 Dec  2  2022 .env
+-rwxrwxrwx.  1 vagrant vagrant       6185 Dec  2  2022 EXAMPLES.md
+-rwxrwxrwx.  1 vagrant vagrant        253 Dec  2  2022 .gitattributes
+-rwxrwxrwx.  1 vagrant vagrant         20 Dec  2  2022 .gitignore
+-rwxrwxrwx.  1 vagrant vagrant 3109225519 Dec  2  2022 LINUX.X64_213000_db_home.zip
+drwxrwxrwx.  1 vagrant vagrant          0 Dec  2  2022 ora-response
+-rwxrwxrwx.  1 vagrant vagrant      12140 Dec  2  2022 README.md
+drwxrwxrwx.  1 vagrant vagrant       8192 Dec  2  2022 scripts
+drwxrwxrwx.  1 vagrant vagrant          0 Dec  2  2022 userscripts
+-rwxrwxrwx.  1 vagrant vagrant     879710 Dec  2  2022 V1020129-01.zip
+-rwxrwxrwx.  1 vagrant vagrant   29889312 Dec  2  2022 V1030945-01.zip
+drwxrwxrwx.  1 vagrant vagrant          0 Aug 15 11:47 .vagrant
+-rwxrwxrwx.  1 vagrant vagrant       8221 Jan 25  2023 Vagrantfile
+-rwxrwxrwx.  1 vagrant vagrant       8154 Jan 25  2023 Vagrantfile.bak
+
+[vagrant@oracle-21c-vagrant ~]$ mkdir /vagrant/TpBigData
+
+total 3066469
+drwxrwxrwx.  1 vagrant vagrant       4096 Aug 15 12:00 .
+dr-xr-xr-x. 20 root    root           262 Dec  2  2022 ..
+drwxrwxrwx.  1 vagrant vagrant       4096 Dec  2  2022 config
+-rwxrwxrwx.  1 vagrant vagrant       1358 Dec  2  2022 .env
+-rwxrwxrwx.  1 vagrant vagrant       6185 Dec  2  2022 EXAMPLES.md
+-rwxrwxrwx.  1 vagrant vagrant        253 Dec  2  2022 .gitattributes
+-rwxrwxrwx.  1 vagrant vagrant         20 Dec  2  2022 .gitignore
+-rwxrwxrwx.  1 vagrant vagrant 3109225519 Dec  2  2022 LINUX.X64_213000_db_home.zip
+drwxrwxrwx.  1 vagrant vagrant          0 Dec  2  2022 ora-response
+-rwxrwxrwx.  1 vagrant vagrant      12140 Dec  2  2022 README.md
+drwxrwxrwx.  1 vagrant vagrant       8192 Dec  2  2022 scripts
+drwxrwxrwx.  1 vagrant vagrant          0 Aug 15 12:00 TpBigData
+drwxrwxrwx.  1 vagrant vagrant          0 Dec  2  2022 userscripts
+-rwxrwxrwx.  1 vagrant vagrant     879710 Dec  2  2022 V1020129-01.zip
+-rwxrwxrwx.  1 vagrant vagrant   29889312 Dec  2  2022 V1030945-01.zip
+drwxrwxrwx.  1 vagrant vagrant          0 Aug 15 11:47 .vagrant
+-rwxrwxrwx.  1 vagrant vagrant       8221 Jan 25  2023 Vagrantfile
+-rwxrwxrwx.  1 vagrant vagrant       8154 Jan 25  2023 Vagrantfile.bak
+
+----------------------------------------------------------------------------------------------------------------
+-- Il faut créer dans le dossier /vagrant/TpBigData le dossier tpmongo si ce n'est déjà fait
+----------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------
+-- Une fois le dossier tpmongo créé, déplacer le dossier M45TpMongoJava fourni dans les exercices du module
+-- M4.5 comme suit:  copy --..\3Mooc_BigData_BDNOSQL_DATA_LAKE\2Exercices_Mooc_BigData\Exercices_Module_4.4\M45TpMongoJava
+-- vers le dossier: /vagrant/TpBigData/tpmongo
+----------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------
+-- Allez dans le dosser /vagrant/TpBigData/tpmongo via l'interface graphique windows en suivant le chemin
+-- contenu dans :  $VAGRANT_HOME défini plus haut
+----------------------------------------------------------------------------------------------------------------
+
+copiez coller M45TpMongoJava là-bas
+copy ..\3Mooc_BigData_BDNOSQL_DATA_LAKE\2Exercices_Mooc_BigData\Exercices_Module_4.4\M45TpMongoJava\ vers  /vagrant/TpBigData/tpmongo
+
+
+-- Pour lancer des composants, se connecter à la VM via SSH en lançant
+cmd
+
+cd C:\Logiciels\19VM_SERGIO\vagrant-projects\OracleDatabase\21.3.0
+
+vagrant ssh
+
+
+----------------------------------------------------------------------------------------------------------------
+-- M4.5.1: Programmation des classes Employe.java et Dept.java 
+----------------------------------------------------------------------------------------------------------------
+*************************************************************************************************
+*************************************Exercices Java mongoDB *************************************
+****************************** Classes Dept.java et Employe.java **********************************
+*************************************************************************************************
+
+
+*************************************************************************************************
+M4.5.1.1. Avant de commencer si ce n'est déjà fait , sur votre poste de travail:
+	- Directement sur votre disque C:, D:, E: etc.(pas le bureau, etc.), créer un dossier TPMONGO
+	- Y Déposer le dossier : 8Cours_MongoDB_DossierEtudiant  récupéré depuis le DRIVE 
+	- ou à minima le sous-dossier : 2Exercices
+	- Ce dossier servira pour tous vos TP : MONGOSHELL et JAVA
+*************************************************************************************************
+
+*************************************************************************************************
+******EXERCICES API JAVA : classes Dept.java et Employe.java SEANCE 8/10 : 2h**********************
+*************************************************************************************************
+M4.5.1.2. Objectif du TP Java 
+
+Vous avez dans ce TP à implémenter ou tester deux classes java :
+- La classe Employe.java
+- La classe Dept.java
+Ces classes doivent être définies dans un package appelé tpjava.
+
+
+-------------------------------------------------------------------------------------------------
+M4.5.1.2.1 Préparation de l'environnement
+-------------------------------------------------------------------------------------------------
+
+Vous devez avoir dans le dossier /vagrant/TpBigData/tpmongo/M45TpMongoJava 
+
+les sous-dossiers suiivants :
+mongojar
+tpjava
+
+Le dossier mongojar contiendra ou contient le jar mongo-java-driver-3.12.10.jar
+Le dossier tpjava contiendra ou contient les classes Employe.java et Dept.java
+
+
+
+
+-------------------------------------------------------------------------------------------------
+-- M4.5.1.2.2 Installation du driver MongoDB JDBC
+-------------------------------------------------------------------------------------------------
+
+Nous supposons que vous avez déjà installé java sur votre machine (JDK17 au plus)
+
+Télécharger mongo-java-driver-3.12.10.jar depuis ici si ce n'est déjà :
+http://central.maven.org/maven2/org/mongodb/mongo-java-driver/3.12.10/. 
+Placez ce jar dans le dossier 
+/vagrant/TpBigData/tpmongo/M45TpMongoJava/mongojar
+
+-------------------------------------------------------------------------------------------------
+-- M4.5.1.2.3 Définition des variables d'environnement
+-------------------------------------------------------------------------------------------------
+
+Assurez que la variable d’environnement PATH contient le path java : ..\java\jdk-x.x.x\bin
+
+Définir une variable d’environnement MYPATH comme suit :
+
+-- Sous Windows
+Set MYPATH=?
+
+-- sous Mac OS
+export MYPATH=?
+
+-- Dans VM Big Data
+export MYPATH=/vagrant/TpBigData/tpmongo/M45TpMongoJava
+
+-------------------------------------------------------------------------------------------------
+-- M4.5.1.2.4 Lignes de compilation
+-------------------------------------------------------------------------------------------------
+
+-- Ligne de compilation et d'exécution de la classe Dept.java sous Windows
+javac -g -cp %MYPATH%\mongojar\mongo-java-driver-3.12.10.jar;%MYPATH% %MYPATH%\tpjava\Dept.java
+java -Xmx256m -Xms256m -cp %MYPATH%\mongojar\mongo-java-driver-3.12.10.jar;%MYPATH% tpjava.Dept
+
+-- Ligne de compilation et d'exécution de la classe Dept.java sous MACOS
+javac -cp "$MYPATH/mongojar/mongo-java-driver-3.12.10.jar:$MYPATH" "$MYPATH/tpjava/Dept.java"
+java -Xmx256m -Xms256m -cp "$MYPATH/mongojar/mongo-java-driver-3.12.10.jar:$MYPATH" tpjava.Dept
+
+-- Ligne de compilation et d'exécution de la classe Dept.java sous LINUX dans la VM Big Data
+javac -cp "$MYPATH/mongojar/mongo-java-driver-3.12.10.jar:$MYPATH" "$MYPATH/tpjava/Dept.java"
+java -Xmx256m -Xms256m -cp "$MYPATH/mongojar/mongo-java-driver-3.12.10.jar:$MYPATH" tpjava.Dept
+
+
+-- Ligne de compilation et d'exécution de la classe Employe.java sous windows
+javac -g -cp %MYPATH%\mongojar\mongo-java-driver-3.12.10.jar;%MYPATH% %MYPATH%\tpjava\Employe.java
+java -Xmx256m -Xms256m -cp %MYPATH%\mongojar\mongo-java-driver-3.12.10.jar;%MYPATH% tpjava.Employe
+
+-- Ligne de compilation et d'exécution de la classe Employe.java sous MACOS
+javac -g -cp $MYPATH/mongojar/mongo-java-driver-3.12.10.jar:$MYPATH $MYPATH/tpjava/Employe.java
+java -cp $MYPATH/mongojar/mongo-java-driver-3.12.10.jar:$MYPATH tpjava.Employe
+
+-- Ligne de compilation et d'exécution de la classe Employe.java sous LINUX dans la VM Big Data
+javac -g -cp $MYPATH/mongojar/mongo-java-driver-3.12.10.jar:$MYPATH $MYPATH/tpjava/Employe.java
+java -cp $MYPATH/mongojar/mongo-java-driver-3.12.10.jar:$MYPATH tpjava.Employe
+
+-------------------------------------------------------------------------------------------------
+-- M4.5.1.3. La classe Dept.java
+-------------------------------------------------------------------------------------------------
+
+Toutes les méthodes de cette classe sont déjà codées.
+
+Testez chacune des méthodes de cette classe en complétant les appels contenus dans le main du
+fichier Dept.java
+
+
+/**
+La classe Dept.java contient les méthodes suivantes :
+
+  public void createCollectionDept(String nomCollection);
+   
+  public void dropCollectionDept(String nomCollection);
+   
+  public void insertOneDept(String nomCollection, Document dept);
+
+  public void testInsertOneDept();
+  
+  public void insertManyDepts(String nomCollection, List<Document> depts);
+
+  public void testInsertManyDepts();
+  
+  public void getDeptById(String nomCollection, Integer deptId);
+  
+  public void getDepts(String nomCollection, 
+	Document whereQuery, 
+	Document projectionFields,
+	Document sortFields);
+	
+  public void updateDepts(String nomCollection, 
+  	Document whereQuery, 
+	Document updateExpressions,
+	UpdateOptions updateOptions
+	);
+	
+  public void deleteDepts(String nomCollection, Document filters);
+
+  public void displayIterator(Iterator it, String message);
+
+Chaque méthode est décrite lors succintement dans la classe.
+
+*/
+
+-------------------------------------------------------------------------------------------------
+-- M4.5.1.4. La classe Employe.java
+-------------------------------------------------------------------------------------------------
+
+
+Compléter l'Implémentation de chacune des méthodes de cette classe qui ne le sont pas.
+/**
+Le package TP contient deux classes. La classe Employe.java et la classe Dept.java
+Chacune de ces classes est dans son propre fichier.
+La classe Employe contient les methodes suivantes :
+
+	public void insertOneEmploye(String nomCollection, Document employe);
+	public void testInsertOneEmploye();
+	public void insertManyEmployes(String nomCollection, List<Document> employes);
+	public void testInsertManyEmployes();
+	public void getEmployeById(String nomCollection, Integer empId);
+	
+	public void getEmployes(String nomCollection, 
+		Document whereQuery, 
+		Document projectionFields,
+		Document sortFields);
+		
+	public void updateEmployes(String nomCollection, 
+		Document whereQuery, 
+		Document updateExpressions, UpdateOptions updateOptions);
+		
+	public void deleteEmployes(String nomCollection, Document filters);
+	public void displayIterator(Iterator it, String message);   
+	
+	public void joinLocalAndforeignCollections(
+				String localCollectionName, 
+				String foreignCollectionName, 
+				String localColJoinFieldName,
+				String foreigColJoinFieldName,
+				Document fielterFieldsOnLocalCollection,
+				String namedJoinedElements
+	);
+	
+	public void groupBy(
+            String collectionName,
+			String groupOperator,
+			Document groupFields) ;
+			
+	public void createEmployeIndexes(
+		String localCollectionName,
+		String indexName,
+		List<String> fieldNames,
+		boolean isAscendingIndex,
+		boolean indexUnique
+	);	
+	
+	public void getAllIndexesOfACollection(String localCollectionName);
+	
+	public void dropAIndexOfACollection(
+		String localCollectionName,
+		String indexName);
+
+Chaque methode est decrite lors de sa declaration dans la classe.
+
+*/
+
+
+----------------------------------------------------------------------------------------------------------------
+-- M4.5.2: Programmation des classes Client.java et Vol.java 
+----------------------------------------------------------------------------------------------------------------
+-- Voir le fichier 
+-- ..\3Mooc_BigData_BDNOSQL_DATA_LAKE\2Exercices_Mooc_BigData\Exercices_Module_4.5\M45TpMongoJava\1Sujets_exercices\
+2ExercicesJava\2Exercices_Java_Complementaire_CLIENT_VOL_cours_mongo.java
+
+
+
+--**************************************************************************************************************
+--* Exercices Module M4.6 : Architectures Big data et construction de lacs de Données avec Big Data SQL
+--  par la pratique
+--**************************************************************************************************************
+-- voir les Exercices du Module M4.6

@@ -1,0 +1,708 @@
+--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--++ Exercice MOOCEBFR4 : Ingénierie des Données du Big Data : SGBD NoSql et Lacs de Données avec Big Data SQL
+--++ par la pratique
+--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+--------------------------------------------------------------------------------------------------------
+-- Section 1 : s'assurer que la VM a bien été installée
+--
+-- Avant de commencer les activités, vous devez vous assuser que la machine virtuelles big Data contenant 
+-- les composants suivants: l'environnement HADOOP (Hadoop hdfs, hadoop hive, ...), Oracle Nosql, MongoDB,
+-- Oracle 21c, R, kafka, ...) est installée.
+-- Cet envirionnement servira pour les exercices des modules :
+-- 	. Exercices Module M4.2 : Introduction à Oracle NOSQL 
+--  . Exercices Module M4.3 : Oracle NoSql et le Modèle Key/Document
+--  . Exercices Module M4.4 : INTRODUCTION A MONGODB ET LE MONGO SHELL
+--  . Exercices Module M4.5 : INTRODUCTION A MONGODB ET SON API JAVA
+--  . Exercices Module M4.6 : Architectures Big data et construction de lacs de Données avec Big Data SQL 
+--    par la pratique
+--
+-- Si la machine virtuelle Big data n'est pas encore installée, vous devez suivre la procédure qui est dans 
+-- les ressources complémentaires :
+-- ..\1Ressources_complementaires_Mooc_BigData\4Installations\3_MV_BIGDATA_SERGIO_INSTALLATION_RECOMMANDE
+-- ou il y a lien vers la procedure d'installation de Sergio. 
+
+--------------------------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------
+-- Section 2 : s'assurer que les principaux composant de  VM tournent
+--
+-- Avant de commencer les activités, vous devez vous assuser que la machine virtuelles big Data contenant 
+-- les composants suivants: l'environnement HADOOP (Hadoop hdfs, hadoop hive, ...), Oracle Nosql, MongoDB,
+-- Oracle 21c, R, kafak, ...) TOURNE.
+-- Cet envirionnement servira pour les exercices des modules :
+-- 	. Exercices Module M4.2 : Introduction à Oracle NOSQL 
+--  . Exercices Module M4.3 : Oracle NoSql et le Modèle Key/Document
+--  . Exercices Module M4.4 : INTRODUCTION A MONGODB ET LE MONGO SHELL
+--  . Exercices Module M4.5 : INTRODUCTION A MONGODB ET SON API JAVA
+--  . Exercices Module M4.6 : Architectures Big data et construction de lacs de Données avec Big Data SQL 
+--    par la pratique
+--
+-- Si la machine virtuelle Big data ne tourne pas, vous devez suivre la procédure ci-dessous pour démarrer
+-- la MV et les composants :
+--
+
+-- Se placer dans votre dossier ou la VM est installée
+
+-- REMPLACER LE CHEMIN DE LA VM (C:\Logiciels\19VM_SERGIO\vagrant-projects\OracleDatabase\21.3.0) 
+-- CI-DESSOUS ET PARTOUT PAR LE VOTRE
+cmd
+
+cd C:\Logiciels\19VM_SERGIO\vagrant-projects\OracleDatabase\21.3.0
+
+-- Créer la variable d''environnement VAGRANT_HOME qui servira plus tard
+set VAGRANT_HOME=C:\Logiciels\19VM_SERGIO\vagrant-projects\OracleDatabase\21.3.0
+
+-- vérifier si la vm tourne
+vagrant status
+
+Current machine states:
+
+oracle-21c-vagrant        poweroff (virtualbox)
+
+The VM is powered off. To restart the VM, simply run 'vagrant up'
+
+-- vérifier le status global
+vagrant global-status
+
+The above shows information about all known Vagrant environments
+on this machine. This data is cached and may not be completely
+up-to-date (use "vagrant global-status --prune" to prune invalid
+entries). To interact with any of the machines, you can go to that
+directory and run Vagrant, or you can use the ID directly with
+Vagrant commands from any directory. For example:
+"vagrant destroy 1a2b3c4d"
+
+
+
+-- Arrêter si nécfessaire puis Activer la machine virtuelle Big Data
+vagrant halt
+
+vagrant up
+
+-- S''il des erreurs veuillez contacter l'administreur de la VM
+
+-- Pour lancer des composants, se connecter à la VM via SSH en lançant
+cmd
+
+cd C:\Logiciels\19VM_SERGIO\vagrant-projects\OracleDatabase\21.3.0
+
+vagrant ssh
+
+----------------------------------------------------------------------------------------------------------------
+-- Oracle NOSQL sur vagrant 
+-- démarrage du serveur oracle nosql au premier lancement de la VM en mode non secure
+----------------------------------------------------------------------------------------------------------------
+
+nohup java -Xmx64m -Xms64m -jar $KVHOME/lib/kvstore.jar kvlite -secure-config disable -root $KVROOT &
+-- 
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage de Hadoop
+----------------------------------------------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage de Hadoop HDFS
+----------------------------------------------------------------------------------------------------------------
+
+start-dfs.sh
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage de Hadoop YARN
+----------------------------------------------------------------------------------------------------------------
+
+start-yarn.sh
+
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage du serveur Hadoop HIVE
+----------------------------------------------------------------------------------------------------------------
+
+
+nohup hive --service metastore > /dev/null &
+nohup hiveserver2 > /dev/null &
+
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage de MongoDB
+----------------------------------------------------------------------------------------------------------------
+
+-- Automaquement 
+
+-- Attention ces exercices peuvent être réalisées avec une version MongoDB hors de la Machine Virtuel
+-- Il faut pour cela suivre la procédure d'installation correspondant à votre OS disponible ici :
+-- ..\3Mooc_BigData_BDNOSQL_DATA_LAKE\1Ressources_complementaires_Mooc_BigData\4Installations\4_MONGODB_STAND_ALONE_EN_LOCAL
+
+
+-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$ FIN DU DEMARRAGE DES COMPOSANTS SERVEURS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+
+--**************************************************************************************************************
+--* Exercices Module M4.4 : INTRODUCTION A MONGODB ET LE MONGO SHELL 
+--* L'objectif ici est de mettre en oeuvre par la pratique les concepts étudiés dans le module M4.4 :
+--* M4.4.0: Préparation de l'envirionnement 
+--* M4.4.1: Création, modification, suppression, lecture de documents via le mongoshell 
+--**************************************************************************************************************
+
+--**************************************************************************************************************
+--* M4.4.0: Préparation de l'envirionnement 
+--* Il faut créer dans votre machine virtuelle un répertoire TpBigData s'il n'a pas encore été créé
+--* Sous TpBigData, créer les sous-dossiers suivants :
+--* tpnosql : qui contiendra les ressources pour les exercices autour d'oracle NOSQL
+--* tpmongo : qui contiendra les ressources pour les exercices autour de mongodb
+--* etc.
+--**************************************************************************************************************
+
+----------------------------------------------------------------------------------------------------------------
+-- Il faut créer dans le dossier vagrant le dossier TpBigData si ce n'est déjà fait
+----------------------------------------------------------------------------------------------------------------
+
+[vagrant@oracle-21c-vagrant ~]$ ls /vagrant -la
+
+total 3066469
+drwxrwxrwx.  1 vagrant vagrant       4096 Aug 15 12:00 .
+dr-xr-xr-x. 20 root    root           262 Dec  2  2022 ..
+drwxrwxrwx.  1 vagrant vagrant       4096 Dec  2  2022 config
+-rwxrwxrwx.  1 vagrant vagrant       1358 Dec  2  2022 .env
+-rwxrwxrwx.  1 vagrant vagrant       6185 Dec  2  2022 EXAMPLES.md
+-rwxrwxrwx.  1 vagrant vagrant        253 Dec  2  2022 .gitattributes
+-rwxrwxrwx.  1 vagrant vagrant         20 Dec  2  2022 .gitignore
+-rwxrwxrwx.  1 vagrant vagrant 3109225519 Dec  2  2022 LINUX.X64_213000_db_home.zip
+drwxrwxrwx.  1 vagrant vagrant          0 Dec  2  2022 ora-response
+-rwxrwxrwx.  1 vagrant vagrant      12140 Dec  2  2022 README.md
+drwxrwxrwx.  1 vagrant vagrant       8192 Dec  2  2022 scripts
+drwxrwxrwx.  1 vagrant vagrant          0 Dec  2  2022 userscripts
+-rwxrwxrwx.  1 vagrant vagrant     879710 Dec  2  2022 V1020129-01.zip
+-rwxrwxrwx.  1 vagrant vagrant   29889312 Dec  2  2022 V1030945-01.zip
+drwxrwxrwx.  1 vagrant vagrant          0 Aug 15 11:47 .vagrant
+-rwxrwxrwx.  1 vagrant vagrant       8221 Jan 25  2023 Vagrantfile
+-rwxrwxrwx.  1 vagrant vagrant       8154 Jan 25  2023 Vagrantfile.bak
+
+[vagrant@oracle-21c-vagrant ~]$ mkdir /vagrant/TpBigData
+
+total 3066469
+drwxrwxrwx.  1 vagrant vagrant       4096 Aug 15 12:00 .
+dr-xr-xr-x. 20 root    root           262 Dec  2  2022 ..
+drwxrwxrwx.  1 vagrant vagrant       4096 Dec  2  2022 config
+-rwxrwxrwx.  1 vagrant vagrant       1358 Dec  2  2022 .env
+-rwxrwxrwx.  1 vagrant vagrant       6185 Dec  2  2022 EXAMPLES.md
+-rwxrwxrwx.  1 vagrant vagrant        253 Dec  2  2022 .gitattributes
+-rwxrwxrwx.  1 vagrant vagrant         20 Dec  2  2022 .gitignore
+-rwxrwxrwx.  1 vagrant vagrant 3109225519 Dec  2  2022 LINUX.X64_213000_db_home.zip
+drwxrwxrwx.  1 vagrant vagrant          0 Dec  2  2022 ora-response
+-rwxrwxrwx.  1 vagrant vagrant      12140 Dec  2  2022 README.md
+drwxrwxrwx.  1 vagrant vagrant       8192 Dec  2  2022 scripts
+drwxrwxrwx.  1 vagrant vagrant          0 Aug 15 12:00 TpBigData
+drwxrwxrwx.  1 vagrant vagrant          0 Dec  2  2022 userscripts
+-rwxrwxrwx.  1 vagrant vagrant     879710 Dec  2  2022 V1020129-01.zip
+-rwxrwxrwx.  1 vagrant vagrant   29889312 Dec  2  2022 V1030945-01.zip
+drwxrwxrwx.  1 vagrant vagrant          0 Aug 15 11:47 .vagrant
+-rwxrwxrwx.  1 vagrant vagrant       8221 Jan 25  2023 Vagrantfile
+-rwxrwxrwx.  1 vagrant vagrant       8154 Jan 25  2023 Vagrantfile.bak
+
+----------------------------------------------------------------------------------------------------------------
+-- Il faut créer dans le dossier /vagrant/TpBigData le dossier tpmongo si ce n'est déjà fait
+----------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------
+-- Une fois le dossier tpmongo créé, déplacer le dossier M44TpMongoShell fourni dans les exercices du module
+-- M4.4 comme suit:  copy --..\3Mooc_BigData_BDNOSQL_DATA_LAKE\2Exercices_Mooc_BigData\Exercices_Module_4.4\M44TpMongoShell
+-- vers le dossier: /vagrant/TpBigData/tpmongo
+----------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------
+-- Allez dans le dosser /vagrant/TpBigData/tpmongo via l'interface graphique windows en suivant le chemin
+-- contenu dans :  $VAGRANT_HOME défini plus haut
+----------------------------------------------------------------------------------------------------------------
+
+copiez coller M44TpMongoShell là-bas
+copy ..\3Mooc_BigData_BDNOSQL_DATA_LAKE\2Exercices_Mooc_BigData\Exercices_Module_4.4\M44TpMongoShell\ vers  /vagrant/TpBigData/tpmongo
+
+
+----------------------------------------------------------------------------------------------------------------
+-- Démarrage du client ligne de commandes Oracle NOSQL
+----------------------------------------------------------------------------------------------------------------
+
+[vagrant@oracle-21c-vagrant ~]$ java -jar $KVHOME/lib/kvstore.jar runadmin -port 5000 -host localhost
+
+
+
+*****************************************************************************************************
+********************************** Exercices MONGOSHELL cours MONGODB mongoDB ***********************
+*****************************************************************************************************
+
+1. Exercices via le shell mongo
+ 
+Exercice 1.1 : 
+Créer une base de données appeler airbase et deux collections (clients, vols)
+
+?
+
+
+
+
+Exercice 1.2 :
+charger les documents contenus dans les fichiers (.js ou .json) dans vos collections
+vos collections créés précédemment
+
+
+
+-- Approche 1 : via la commande load qui exécute un .js
+-- dans lequel la commande db.collection.insertMay(...)
+-- 1Json_collection_Insert_Clients_Airbase.js
+-- 1Json_collection_Insert_Vols_Airbase.js
+
+?
+
+-- Approche 2 : via mongoimport JsonArray
+-- Les données sont dans les fichiers :
+-- 2Json_collection_Import_Clients_Airbase.json
+-- 2Json_collection_Import_Vols_Airbase.json
+?
+
+
+Exercice 1.3 :
+Ajouter un client et un vol dans les bonnes collections
+
+?
+
+Exercice 1.4 :
+Modifier le vol ajouté en 1.3 pour y ajouter les appréciations d'un des clients
+
+?
+
+Exercice 1.5 :
+Créer un index sur les champs ville, rue et numéro de l'adresse 
+d'un client
+
+?
+
+Exercice 1.6 : Divers consultations
+
+1.6.1 Afficher tous les clients
+
+-- sans formatage
+?
+-- Avec formatage
+?
+
+1.6.2 Afficher tous les clients habitant Nice et ayant plus d'un prenom
+
+-- Solution 1
+-- $size: 2 =  qui a exactement 2 elements dans l'array prenom
+?
+
+-- Solution 2
+-- plus de 2 elements dans dans l'array prenom
+
+?
+
+-- Solution 3
+-- Find all docs that have at least two prenom array elements.
+-- nomArray.1 correspond au 2ème élément. prenom[1]
+
+?
+-- Solution 4
+$nor effectue une opération NOR logique sur un tableau d'une 
+ou plusieurs expressions de requête et sélectionne les 
+documents qui échouent à toutes les expressions de requête 
+du tableau. Le $nor a la syntaxe suivante :
+
+?
+
+1.6.3 Afficher les clients sans leurs adresses
+
+?
+
+1.6.4 Afficher les informations sur 1 client ainsi que ses appréciations
+sur les vols ( coté serveur)
+
+?
+
+1.6.5 Afficher les clients qui habitent à une adresse 
+donnée (ville, rue, numero)
+
+?
+
+
+1.6.6 Visulisez aussi le plan d'exécution de la requête pour 
+voirs si l'index est utilisé
+
+?
+
+1.6.7a Afficher les clients dont les noms commencent par une 
+lettre donnée
+
+?
+
+1.6.7b Afficher les clients dont les noms finissent par une 
+lettre donnée
+
+?
+
+1.6.7c Afficher les clients dont les noms contiennent une 
+lettre donnée
+
+?
+
+1.6.7d Afficher les clients dont les noms contienncent une sous-chaîne
+
+?
+
+1.6.7e Afficher les clients dont les noms commencent avec une lettre
+et finissent avec une lettre
+
+?
+
+1.6.8 Supprimer le client fournit en 1.3
+
+?
+
+1.6.9 Trier les vols selon la date du vol. N'afficher 
+que : Nr vol, VD, VA, dataVol
+
+?
+
+1.6.10 Compter le nombre de notes par par vol, appreciation et note
+
+?
+
+
+1.7 Utilisation des validateurs 
+
+Créer progressivement une une collection client0 
+puis une collection vols0.
+L'objectif est de pouvoir :
+- imposer des champs
+- imposer des types à des champs
+- imposer des valeurs à des champs
+- Interdire l'ajout de nouveaux champs.
+
+
+1.7.1 Construction progressive d'un valideur sur la collection client0
+1.7.1.1 Créer et tester le validateur ci-dessous
+db.clients0.drop();
+db.createCollection("clients0", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+		 additionalProperties: true,
+         required: [ "nom"],
+         properties: {
+            nom: {
+               bsonType: "string",
+               description: "must be a string and is required"
+            }
+		}
+		}
+	}
+}
+);
+
+-- ajouter le document ci-dessous 
+-- que se passe-t-il ?
+db.clients0.insertOne({_id:1, "nom":"Bill"});
+
+-- ajouter un document avec le champs prenom
+-- que se passe-t-il ?
+db.clients0.insertOne({_id:2,"nom":"Zembla", prenom:"Lefort"});
+
+1.7.1.2 Interdire l'ajout d'autres champs y compris prenoms et vérifier
+-- Supprimer et récréer la collection avec validateur
+-- Interdire l'ajout d'autres champs y compris prenoms
+-- quelle est la bonne syntaxe ?
+db.clients0.drop();
+db.createCollection("clients0", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+		 ?
+	   }
+	}
+}
+);
+
+
+-- Vérifier qu'il n'est plus possible d'ajouter un champs prénom
+db.clients0.insertOne({_id:1, nom:"Bill"})
+
+db.clients0.insertOne({_id:2,nom:"Bill", prenom:"Lefort2"});
+
+
+1.7.1.3 ajouter à la collection clients0 le champ : prenoms
+-- Le champ prenoms doit être de type : string
+-- Les seuls prénoms possibles sont : Pierre, Adam, Mohamed, Akim, Joel
+
+
+
+
+
+db.clients0.drop();
+db.createCollection("clients0", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+		 ?
+	   }
+	}
+}
+);
+
+-- Tester et véfier les cas ou cela marche ou échoue
+db.clients0.insertOne({_id:1, nom:"Bill"})
+db.clients0.insertOne({_id:2,nom:"Bill", prenom:"Lefort2"});
+
+1.7.1.4 Ajouter un champ dateNaiss de type date à la collection clients0
+
+db.clients0.drop();
+db.createCollection("clients0", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+		 ?
+	   }
+	}
+}
+);
+-- Tester et vérifier un cas d'échec ou de réussite
+
+db.clients0.insertOne({_id:1, nom:"Bill"})
+db.clients0.insertOne(
+	{
+		_id:1,
+		nom:"Bill", 
+		prenom:"Joel",
+		dateNaiss:new Date("1980-12-12")
+	}
+);
+
+1.7.1.5 ajouter un champ chiffreDaffaire, le chiffre d'affaire
+doit être compris entre 0 et 10000000.00
+
+
+db.clients0.drop();
+db.createCollection("clients0", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+		 ?
+	   }
+	}
+}
+);
+
+-- Tester et vérifier avec un cas d'échec ou de réussite
+
+db.clients0.insertOne(
+	{
+		_id:1,
+		nom:"Bill", 
+		prenom:"Joel",
+		dateNaiss:new Date("1980-12-12"),
+		chiffreDaffaire:NumberDecimal("5.5")
+	}
+);
+
+db.clients0.insertOne(
+	{
+		_id:2,
+		nom:"Adams", 
+		prenom:"Adam",
+		dateNaiss:new Date("1982-12-12"),
+		chiffreDaffaire:NumberDecimal("-5.5")
+	}
+);
+
+1.7.1.6 ajouter un champ adresse obligatoire qui est une structure
+-- adresse contient les champs suivants :
+numero de type entier
+rue de type string
+ville de type string
+codePostal de type string
+Pays de type String
+
+
+db.clients0.drop();
+db.createCollection("clients0", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+		 ?
+	   }
+	}
+}
+);
+-- insertion d'une adresse correcte !
+db.clients0.insertOne(
+	{
+		_id:1,
+		nom:"Bill", 
+		prenom:"Joel",
+		dateNaiss:new Date("1980-12-12"),
+		chiffreDaffaire:NumberDecimal("100000.0"),
+		adresse: {
+		   numero: 64,
+		   rue: "Une rue",
+		   codePostal: "06000",
+		   ville: "Grasse",
+		   pays: "France"
+		}	
+	}
+);
+
+-- Insertion d'une adresse avec le champ : continent
+
+db.clients0.insertOne(
+	{
+		_id:2,
+		nom:"Bill2", 
+		prenom:"Joel",
+		dateNaiss:new Date("1982-12-12"),
+		chiffreDaffaire:NumberDecimal("10000.0"),
+		adresse: {
+		   numero: 10,
+		   rue: "Félix Faure",
+		   codePostal: "06000",
+		   ville: "Nice",
+		   pays: "France",
+		   continent:"Europe"
+		}	
+	}
+);
+
+1.7.1.7 Interdire l'ajout de champs dans structure : adresse et confirmer continent
+
+db.clients0.drop();
+db.createCollection("clients0", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+		 ?
+	   }
+	}
+}
+);
+-- Insertion correction ?
+
+
+db.clients0.insertOne(
+	{
+		_id:1,
+		nom:"Bill", 
+		prenom:"Joel",
+		dateNaiss:new Date("1980-12-12"),
+		chiffreDaffaire:NumberDecimal("12000.0"),
+		adresse: {
+		   numero: 64,
+		   rue: "Une rue",
+		   codePostal: "06000",
+		   ville: "Grasse",
+		   pays: "France",
+		   continent: "Europe"
+		}	
+	}
+);
+
+-- Insertion avec violation de la limitation du nombre de champ dans :adresse
+
+db.clients0.insertOne(
+	{
+		_id:2,
+		nom:"Buffalo", 
+		prenom:"Mohamed",
+		dateNaiss:new Date("1985-12-12"),
+		chiffreDaffaire:NumberDecimal("122000.0"),
+		adresse: {
+		   numero: 1,
+		   rue: "Une rue",
+		   codePostal: "75000",
+		   ville: "Paris",
+		   pays: "France",
+		   continent: "Europe",
+		   planete : "Terre"
+		}	
+	}
+);
+
+1.7.1.7 Ajouter un champ autresPrenoms de type Array.
+
+db.clients0.drop();
+db.createCollection("clients0", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+		 ?
+	   }
+	}
+}
+);
+-- Ajout d'un document avec le champs autresPrenoms correcte
+db.clients0.insertOne(
+	{
+		_id:1,
+		nom:"Bill", 
+		prenom:"Adam",
+		dateNaiss:new Date("1980-12-12"),
+		chiffreDaffaire:NumberDecimal("122000.0"),
+		adresse: {
+		   numero: 64,
+		   rue: "Une rue",
+		   codePostal: "06000",
+		   ville: "Grasse",
+		   pays: "France",
+		   continent: "Europe"
+		}, 
+		autresPrenoms:["Jolie", "Lebeau"]
+	}
+);
+
+-- Insertion avec violation des contraintes sur l'array autresPrenoms
+
+db.clients0.insertOne(
+	{
+		_id:2,
+		nom:"Bill2", 
+		prenom:"Adam",
+		dateNaiss:new Date("1980-12-12"),
+		chiffreDaffaire:NumberDecimal("122000.0"),
+		adresse: {
+		   numero: 64,
+		   rue: "Une rue",
+		   codePostal: "06000",
+		   ville: "Grasse",
+		   pays: "France",
+		   continent: "Europe"
+		}, 
+		autresPrenoms:[]
+	}
+);
+
+
+1.7.2 Construire un validateur pour les documents de la collection vols0 
+Les contraintes :
+	- Tous les champs sont obligatoires 
+	- _id doit être un entier
+	- Les string doivent être de type string
+	- la date de vol doit être une date
+	- Les champs numériques doivent être de type number ou decimal
+	- Le champ appreciations est une structure contenant les champs
+²	idClient et l'array notes
+	- Chaque items dans l'array notes est une structure avec les restrictifs:
+		. "apid":"073",
+        . "critereANoter"
+		. note 	
+	- Le champs critereANoter ne peut prendre que les valeurs suivantes :
+		"SiteWeb","Prix", "Nourritureàbord", "Qualitésiège", "Accueilguichet"
+		Nota : Il est impossible d'ajouter de nouveaux critères à notes.
+	- Le champs note ne peut prendre que les valeurs suivantes:
+		EXCELLENT, TRES_BIEN, BIEN, MOYEN, MEDIOCRE, PASSABLE
+		Nota : Il est impossible d'ajouter de nouvelles notes.
+	- Effectuer les tests au fur et à mesure
+	
+
+

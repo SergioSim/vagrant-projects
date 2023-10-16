@@ -1,0 +1,10 @@
+{
+ "type": "record",
+ "name": "ContactInfo",
+ "namespace": "example",
+ "fields": [
+ {"name": "phone", "type": "string", "default": ""},
+ {"name": "email", "type": "string", "default": ""},
+ {"name": "city", "type": "string", "default": ""}
+ ]
+} 

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#
+# See the file LICENSE for redistribution information.
+#
+# Copyright (c) 2010, 2013 Oracle and/or its affiliates.  All rights reserved.
+#
+# Fill in site-appropriate values for PATH, KVHOME, and CLASSPATH
+# This script will be executed by the Oracle Database server.
+# If you are using user-specified Formatters, by sure to include their home
+# in the CLASSPATH.
+#
+export KVHOME=/u01/nosql/kv-2.1.54
+export SONGDEMOPATH=$KVHOME/tpnosql
+export PATH=$PATH:/usr/java/latest/bin:$SONGDEMOPATH
+export CLASSPATH="$CLASSPATH:$KVHOME/lib/*:$SONGDEMOPATH"
+#export CLASSPATH="$CLASSPATH:$KVHOME/lib/kvstore-ee.jar:$KVHOME/lib/kvstore.jar:$KVHOME/tpnosql"
+java oracle.kv.exttab.Preproc $*
+
