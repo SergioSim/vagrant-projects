@@ -71,7 +71,7 @@ hadoop fs -put /usr/local/hadoop/etc/hadoop/*.xml input
 ### Run example
 
 ```bash
-hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.4.jar grep input output 'dfs[a-z.]+'
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar grep input output 'dfs[a-z.]+'
 ```
 
 ### View results

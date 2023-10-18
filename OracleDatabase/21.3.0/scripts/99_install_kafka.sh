@@ -8,7 +8,7 @@ set -Eeuo pipefail
 # Import utils
 source /vagrant/scripts/utils.sh
 
-KAFKA_VERSION='kafka_2.13-3.4.0'
+KAFKA_VERSION='kafka_2.13-3.6.0'
 IFS='-' read -r _ KAFKA_VERSION_NUMBER <<< "${KAFKA_VERSION:?}"
 
 cd /usr/local
@@ -31,7 +31,7 @@ rm -fr "${KAFKA_HOME:?}" "${KAFKA_VERSION:?}" /tmp/kafka-logs /tmp/zookeeper
 
 if [[ ! -f "${KAFKA_VERSION}.tgz" ]]; then
     __log_info 'Download Kafka (~102M)'
-    URL="https://dlcdn.apache.org/kafka/${KAFKA_VERSION_NUMBER:?}/${KAFKA_VERSION}.tgz"
+    URL="https://downloads.apache.org/kafka/${KAFKA_VERSION_NUMBER:?}/${KAFKA_VERSION}.tgz"
     wget --progress=dot:giga "${URL}"
 fi
 

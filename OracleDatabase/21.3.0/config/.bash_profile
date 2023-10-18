@@ -42,10 +42,10 @@ export PATH=$PATH:$SQOOP_HOME/bin
 
 # JAVA CLASSPATH (to compile Hadoop & KVStore programs)
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
-CLASSPATH="$HADOOP_HOME/share/hadoop/common/hadoop-common-3.3.4.jar"
+CLASSPATH="$HADOOP_HOME/share/hadoop/common/hadoop-common-3.3.6.jar"
 CLASSPATH="$CLASSPATH:$HADOOP_HOME/share/hadoop/common/lib/commons-cli-1.2.jar"
-CLASSPATH="$CLASSPATH:$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-common-3.3.4.jar"
-CLASSPATH="$CLASSPATH:$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-core-3.3.4.jar"
+CLASSPATH="$CLASSPATH:$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-common-3.3.6.jar"
+CLASSPATH="$CLASSPATH:$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-core-3.3.6.jar"
 CLASSPATH="$CLASSPATH:$KVHOME/lib/kvclient.jar:$KVHOME/lib/kvstore.jar:$KVHOME/examples"
 export CLASSPATH
 export PATH=$PATH:$JAVA_HOME/bin

@@ -8,7 +8,7 @@ set -Eeuo pipefail
 # Import utils
 source /vagrant/scripts/utils.sh
 
-HADOOP_VERSION="hadoop-3.3.4"
+HADOOP_VERSION="hadoop-3.3.6"
 
 cd /usr/local
 

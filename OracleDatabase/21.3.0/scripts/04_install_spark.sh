@@ -8,7 +8,7 @@ set -Eeuo pipefail
 # Import utils
 source /vagrant/scripts/utils.sh
 
-SPARK_VERSION="spark-3.4.1-bin-hadoop3"
+SPARK_VERSION="spark-3.5.0-bin-hadoop3"
 
 cd /usr/local
 
@@ -17,7 +17,7 @@ rm -rf "${SPARK_HOME:?}" "${SPARK_VERSION:?}"
 
 if [[ ! -f "${SPARK_VERSION}.tgz" ]]; then
     __log_info 'Download Spark (~285M)'
-    wget --progress=dot:giga "https://dlcdn.apache.org/spark/spark-3.4.1/${SPARK_VERSION}.tgz"
+    wget --progress=dot:giga "https://dlcdn.apache.org/spark/spark-3.5.0/${SPARK_VERSION}.tgz"
 fi
 
 __log_info 'Untar Spark (~285M)'

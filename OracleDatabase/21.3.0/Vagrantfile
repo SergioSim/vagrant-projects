@@ -76,6 +76,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Hive metastore (MySQL) database user password
   VM_HIVE_METASTORE_PWD = default_s('VM_HIVE_METASTORE_PWD', 'hive')
 
+  # Hive server port
+  VM_HIVE_SERVER_PORT = default_i("VM_HIVE_SERVER_PORT", 10000)
   # Hive Web UI port
   VM_HIVE_WEB_UI_PORT = default_i("VM_HIVE_WEB_UI_PORT", 10002)
 
@@ -179,6 +181,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: VM_EM_EXPRESS_PORT, host: VM_EM_EXPRESS_PORT
 
   # Other port forwarding
+  config.vm.network "forwarded_port", guest: 10000, host: VM_HIVE_SERVER_PORT
   config.vm.network "forwarded_port", guest: 10002, host: VM_HIVE_WEB_UI_PORT
   config.vm.network "forwarded_port", guest: 8888, host: VM_JUPYTER_PORT
 
@@ -240,11 +243,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "scripts/99_disable_mongodb_authentication.sh",
     type: "shell",
     inline: "/bin/bash /vagrant/scripts/99_disable_mongodb_authentication.sh",
-    run: "never"
-
-  config.vm.provision "scripts/99_downgrade_mongodb.sh",
-    type: "shell",
-    inline: "/bin/bash /vagrant/scripts/99_downgrade_mongodb.sh",
     run: "never"
 
   config.vm.provision "scripts/99_install_kafka.sh",
