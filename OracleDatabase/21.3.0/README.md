@@ -146,6 +146,20 @@ Once you have [connected to the virtual machine via ssh](#connect-to-the-virtual
 
 ## Troubleshooting
 
+### Errors while running vagrant ssh
+
+If you get an error of type: `Permission denied (publickey,gssapi-keyex,gssapi-with-mic)`
+while executing `vagrant ssh` on a Windows host, try setting the `VAGRANT_PREFER_SYSTEM_BIN` to `0`
+to force Vagrant to use the embedded SSH executable:
+
+```
+setx VAGRANT_PREFER_SYSTEM_BIN 0
+```
+
+Source: [Permission denied with Vagrant](https://stackoverflow.com/a/69253564)
+
+### Errors while running the examples
+
 If some components of this virtual machine stop working it is possible to re-install
 them by re-running their corresponding provisioning scripts.
 
