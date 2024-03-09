@@ -84,6 +84,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Jupyter Notebook port
   VM_JUPYTER_PORT = default_i("VM_JUPYTER_PORT", 8888)
 
+  # Hbase port
+  VM_HBASE_PORT = default_i("VM_HBASE_PORT", 16010)
+
   # MongoDB administrator credentials
   VM_MONGO_ADMIN_USERNAME = default_s("VM_MONGO_ADMIN_USERNAME", "admin")
   VM_MONGO_ADMIN_PASSWORD = default_s("VM_MONGO_ADMIN_PASSWORD", "pass")
@@ -184,6 +187,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 10000, host: VM_HIVE_SERVER_PORT
   config.vm.network "forwarded_port", guest: 10002, host: VM_HIVE_WEB_UI_PORT
   config.vm.network "forwarded_port", guest: 8888, host: VM_JUPYTER_PORT
+  config.vm.network "forwarded_port", guest: 16010, host: VM_HBASE_PORT
 
   # Provision everything on the first run
   config.vm.provision "scripts/00_replace_crlf_with_lf.sh",
@@ -253,6 +257,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "scripts/99_install_sqoop.sh",
     type: "shell",
     inline: "/bin/bash /vagrant/scripts/99_install_sqoop.sh",
+    run: "never"
+
+  config.vm.provision "scripts/99_install_hbase.sh",
+    type: "shell",
+    inline: "/bin/bash /vagrant/scripts/99_install_hbase.sh",
     run: "never"
 
   config.vm.provision "scripts/99_install_jupyter.sh",

@@ -325,3 +325,30 @@ sqoop import -D org.apache.sqoop.splitter.allow_text_splitter=true --connect jdb
 # Check that the table was imported to Hive
 beeline -u jdbc:hive2://localhost:10000 -e "SELECT * FROM test.aux;"
 ```
+
+## Hbase
+
+See [Optional Provisioners](./README.md#optional-provisioners) section.
+
+### Start Hbase
+
+> Note: Prior starting Hbase, it is required that Hadoop services are running.
+> See [Start Hadoop](#start-hadoop-hdfs--yarn)
+
+```bash
+start-hbase.sh
+```
+
+### Stop Hbase
+
+```bash
+stop-hbase.sh
+```
+
+### Start Hbase Shell
+
+```bash
+hbase shell
+```
+
+For more Hbase usage examples, see [official getting started guide](https://hbase.apache.org/book.html#_get_started_with_hbase).

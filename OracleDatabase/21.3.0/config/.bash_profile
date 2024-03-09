@@ -40,6 +40,10 @@ export KAFKA_HOME=/usr/local/kafka
 export SQOOP_HOME=/usr/local/sqoop
 export PATH=$PATH:$SQOOP_HOME/bin
 
+# HBASE ENVIRONMENT VARIABLES
+export HBASE_HOME=/usr/local/hbase
+export PATH=$PATH:$HBASE_HOME/bin
+
 # JAVA CLASSPATH (to compile Hadoop & KVStore programs)
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 CLASSPATH="$HADOOP_HOME/share/hadoop/common/hadoop-common-3.3.6.jar"

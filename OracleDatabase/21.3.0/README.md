@@ -257,6 +257,16 @@ Some optional/utility provisioning scripts are available.
   cd /vagrant
   jupyter notebook --ip=0.0.0.0
   ```
+- To install Apache Hbase
+  > Note: Apache Hbase requires HDFS, make sure that it is running.
+  > See [Start Hadoop](./EXAMPLES.md#start-hadoop-hdfs--yarn)
+
+  > Note: running the `02_prerequisites.sh` script is only required if you have
+  > installed the VM prior to the Sqoop installation addition.
+  ```
+  vagrant provision --provision-with scripts/02_prerequisites.sh
+  vagrant provision --provision-with scripts/99_install_hbase.sh
+  ```
 
 
 ## Connecting to Oracle
