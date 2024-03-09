@@ -11,7 +11,7 @@ The scripts install the following software:
 - Oracle Database 21.0.3
 - MySQL 8.0.26 (or higher)
 - Apache Hadoop 3.3.6
-- Apache Spark 3.5.0
+- Apache Spark 3.5.1
 - Oracle NoSQL Database Enterprise Edition (KVStore) 22.3.45 with examples 22.1.16
 - Apache Hive 3.1.3
 - MongoDB 3.4

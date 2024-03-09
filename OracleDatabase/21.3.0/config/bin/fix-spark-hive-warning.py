@@ -7,7 +7,6 @@ with some properties causing warning messages removed.
 See: https://rb.gy/tt9gfz
 """
 
-from copy import copy
 import os
 import xml.etree.ElementTree as ET
 
@@ -180,10 +179,10 @@ PROPERTIES_TO_REMOVE = {
 
 tree = ET.parse(f"{HIVE_HOME}/conf/hive-site.xml")
 root = tree.getroot()
-for property in list(root.iter('property')):
-    name = property.find("name").text
+for prop in list(root.iter('property')):
+    name = prop.find("name").text
     if name in PROPERTIES_TO_REMOVE:
         print(f"Removing property = {name}")
-        root.remove(property)
+        root.remove(prop)
 
 tree.write(f"{SPARK_HOME}/conf/hive-site.xml")
