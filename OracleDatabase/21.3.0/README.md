@@ -267,6 +267,10 @@ Some optional/utility provisioning scripts are available.
   vagrant provision --provision-with scripts/02_prerequisites.sh
   vagrant provision --provision-with scripts/99_install_hbase.sh
   ```
+- To install Apache Cassandra
+  ```
+  vagrant provision --provision-with scripts/99_install_cassandra.sh
+  ```
 
 
 ## Connecting to Oracle

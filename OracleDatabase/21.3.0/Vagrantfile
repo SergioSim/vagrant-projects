@@ -269,4 +269,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     inline: "/bin/bash /vagrant/scripts/99_install_jupyter.sh",
     run: "never"
 
+  config.vm.provision "scripts/99_install_cassandra.sh",
+    type: "shell",
+    inline: "/bin/bash /vagrant/scripts/99_install_cassandra.sh",
+    run: "never"
+
 end

@@ -351,4 +351,58 @@ stop-hbase.sh
 hbase shell
 ```
 
-For more Hbase usage examples, see [official getting started guide](https://hbase.apache.org/book.html#_get_started_with_hbase).
+For more Hbase usage examples, see the [official getting started guide](https://hbase.apache.org/book.html#_get_started_with_hbase).
+
+## Apache Cassandra
+
+See [Optional Provisioners](./README.md#optional-provisioners) section.
+
+### Start Cassandra
+
+> Note that by default Cassandra is configured to automatically start at startup.
+
+```bash
+sudo systemctl start cassandra
+```
+
+### Stop Cassandra
+
+```bash
+sudo systemctl stop cassandra
+```
+
+# Use Cassandra Query Language Shell
+
+```bash
+cqlsh localhost
+```
+
+```cql
+-- Create a Keyspace
+CREATE KEYSPACE IF NOT EXISTS ks
+   WITH replication = {'class': 'NetworkTopologyStrategy'};
+
+-- Use the Keyspace
+USE ks;
+
+-- Create a table inside the Keyspace
+CREATE TABLE IF NOT EXISTS t (
+    pk int,
+    t int,
+    v text,
+    s text static,
+    PRIMARY KEY (pk, t)
+);
+
+-- Instert values into the table
+INSERT INTO t (pk, t, v, s) VALUES (0, 0, 'val0', 'static0');
+INSERT INTO t (pk, t, v, s) VALUES (0, 1, 'val1', 'static1');
+
+-- Query the table
+SELECT * FROM t;
+
+-- Use Ctrl + D to exit the Shell or the exit command
+exit;
+```
+
+For more Cassandra usage examples, see the [official getting started guide](https://cassandra.apache.org/doc/latest/cassandra/getting-started/index.html).
